@@ -17,16 +17,16 @@ using namespace std;
 //Execution Begins Here
 int main(int argc, char** argv) {
     //Declare and initialize variables
-    int numOPod, peperpo, totPeas; //Number of Pods, Peas Per Pod, Total Peas
+    unsigned short numOPod, peperpo, totPeas; //Number of Pods, Peas Per Pod, Total Peas
     
     //User Inputs
     //User Input for entering number of pods
-    cout << "Hello\n";
-    cout << "Press return after entering a number.\n";
-    cout << "Enter the number of pods:\n";
+    cout << "Hello" << endl;
+    cout << "Press return after entering a number." << endl;
+    cout << "Enter the number of pods:" << endl;
     cin >> numOPod;
     //User Input for entering number of peas in a pod
-    cout << "Enter the number of peas in a pod:\n";
+    cout << "Enter the number of peas in a pod:" << endl;
     cin >> peperpo;
     
     //Calculate the total number of peas
@@ -35,14 +35,14 @@ int main(int argc, char** argv) {
     //Output the results
     cout << "If you have ";
     cout << numOPod;
-    cout << " pea pods\n";
+    cout << " pea pods" << endl;
     cout << "and ";
     cout << peperpo;
-    cout << " peas in each pod, then\n";
+    cout << " peas in each pod, then" << endl;
     cout << "you have ";
     cout << totPeas;
-    cout << " peas in all the pods.\n";
-    cout << "Good-bye\n";
+    cout << " peas in all the pods." << endl;
+    cout << "Good-bye" << endl;
     //Exit Stage Right!
     return 0;
 }

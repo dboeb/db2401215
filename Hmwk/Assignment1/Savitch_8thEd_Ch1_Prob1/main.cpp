@@ -17,7 +17,7 @@ using namespace std;
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare and Initiate Variables
-    int numOPod, peperpo, totPeas; //Number of Pods, Peas Per Pod, Total Peas
+    unsigned short numOPod, peperpo, totPeas; //Number of Pods, Peas Per Pod, Total Peas
     
     //User Inputs
     //User Input for entering number of pods

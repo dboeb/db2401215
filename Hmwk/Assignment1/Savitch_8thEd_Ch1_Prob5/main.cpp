@@ -17,15 +17,15 @@ using namespace std;
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare and initialize variables
-    int frstint, scndint, intsum, intprod; //First Integer, Second Integer, Sum of Integers, Product of Integers
+    float frstint, scndint, intsum, intprod; //First Integer, Second Integer, Sum of Integers, Product of Integers
     
     //User Inputs
     //User Input for entering the first integer
-    cout << "Press return after entering a number.\n";
-    cout << "Enter the first integer:\n";
+    cout << "Press return after entering a number." << endl;
+    cout << "Enter the first integer:" << endl;
     cin >> frstint;
     //User Input for entering the second integer
-    cout << "Enter the second integer:\n";
+    cout << "Enter the second integer:" << endl;
     cin >> scndint;
     
     //Program Calculations

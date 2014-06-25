@@ -17,20 +17,20 @@ using namespace std;
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare and initialize variables
-    int qrtrs, dimes, nickels, //Number of Quarters, Number of Dimes, Number of Nickels
+    unsigned short qrtrs, dimes, nickels, //Number of Quarters, Number of Dimes, Number of Nickels
         qrtval = 25, dimval = 10, nicval = 5, //Value of a Quarter, Value of a Dime, Value of a Nickel
         qrtcnts, dimcnts, niccnts, cents; // Total Cents in Quarters, Total Cents in Dimes, Total Cents in Nickels, Total Cents
     
     //User Inputs
     //User Input for entering the number of quarters
-    cout << "Press return after entering a number.\n";
-    cout << "Enter the number of quarters:\n";
+    cout << "Press return after entering a number." << endl;
+    cout << "Enter the number of quarters:" << endl;
     cin >> qrtrs;
     //User Input for entering the number of dimes
-    cout << "Enter the number of dimes:\n";
+    cout << "Enter the number of dimes:" << endl;
     cin >> dimes;
     //User Input for entering the number of nickels
-    cout << "Enter the number of nickels:\n";
+    cout << "Enter the number of nickels:" << endl;
     cin >> nickels;
     
     //Program Calculations

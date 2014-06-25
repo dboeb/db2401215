@@ -17,25 +17,25 @@ using namespace std;
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare and initialize variables
-    unsigned short time, divcons = 2; //time in seconds, division constant
-    float accel = 9.82, dist; //Acceleration due to gravity in m/s^2, distance fallen
+    char inpt; // Character Input
     
     //User Inputs
     //User Input for entering a character
-    cout << "Press any character then press return:\n";
-    cin >> time;
+    cout << "Press any character then press return: ";
+    cin >> inpt;
 
     //Output the results
-    //Message of the letter "C" using X's
-    cout << "  X X X" << endl;
-    cout << " X    X" << endl;
-    cout << "X      " << endl;
-    cout << "X      " << endl;
-    cout << "X      " << endl;
-    cout << "X      " << endl;
-    cout << "X      " << endl;
-    cout << " X    X" << endl;
-    cout << "  X X X" << endl;
+    //Message of the letter "C" using imputed character
+    cout << endl;
+    cout << "  " << inpt << " " << inpt << " " << inpt << endl;
+    cout << " " << inpt << "    " << inpt << endl;
+    cout << inpt << endl;
+    cout << inpt << endl;
+    cout << inpt << endl;
+    cout << inpt << endl;
+    cout << inpt << endl;
+    cout << " " << inpt << "    " << inpt << endl;
+    cout << "  " << inpt << " " << inpt << " " << inpt << endl;
     
     //Exit Stage Right!
     return 0;

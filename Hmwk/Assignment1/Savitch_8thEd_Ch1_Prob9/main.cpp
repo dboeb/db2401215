@@ -17,18 +17,18 @@ using namespace std;
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare and initialize variables
-    unsigned short time, divcons = 2; //time in seconds, division constant
-    float accel = 9.82, dist; //Acceleration due to gravity in m/s^2, distance fallen
+    unsigned short time; //time in seconds
+    float ACCEL = 9.82, dist; //Acceleration due to gravity in m/s^2, distance fallen in meters
     
     //User Inputs
     //User Input for entering the number of quarters
-    cout << "Press return after entering a number.\n";
-    cout << "Enter the time falling in seconds:\n";
+    cout << "Press return after entering a number." << endl;
+    cout << "Enter the time falling in seconds:" << endl;
     cin >> time;
     
     //Program Calculations
     //Calculate the total distance traveled
-    dist = accel * time * time / divcons;
+    dist = ACCEL * time * time / 2;
 
     //Output the results
     cout << "Total Distance traveled: ";
