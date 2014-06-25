@@ -21,12 +21,16 @@ int main(int argc, char** argv) {
     
     //User Inputs
     //User Input for entering number of pods
-    cout << "Press return after entering a number.\n";
-    cout << "Enter the number of pods:\n";
+    cout << "Press return after entering a number." << endl;
+    cout << "Enter the number of pods:" << endl;
     cin >> numOPod;
+    cout << "You have entered: ";
+    cout << numOPod << " pods" << endl;
     //User Input for entering number of peas in a pod
-    cout << "Enter the number of peas in a pod:\n";
+    cout << "Enter the number of peas in a pod:" << endl;
     cin >> peperpo;
+    cout << "You have entered: ";
+    cout << peperpo << " peas per pod" << endl;
     
     //Calculate the total number of peas
     totPeas = numOPod * peperpo;
@@ -34,13 +38,13 @@ int main(int argc, char** argv) {
     //Output the results
     cout << "If you have ";
     cout << numOPod;
-    cout << " pea pods\n";
+    cout << " pea pods" << endl;
     cout << "and ";
     cout << peperpo;
-    cout << " peas in each pod, then\n";
+    cout << " peas in each pod, then" << endl;
     cout << "you have ";
     cout << totPeas;
-    cout << " peas in all the pods.\n";
+    cout << " peas in all the pods." << endl;
 //Exit Stage Right!
     return 0;
 }
