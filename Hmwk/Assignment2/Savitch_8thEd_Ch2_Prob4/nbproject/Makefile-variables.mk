@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=Cygwin-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/Cygwin-Windows
-CND_ARTIFACT_NAME_Debug=gaddis_7thed_chap2_prob18_energy_drink
-CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/gaddis_7thed_chap2_prob18_energy_drink
+CND_ARTIFACT_NAME_Debug=savitch_8thed_ch2_prob4
+CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/savitch_8thed_ch2_prob4
 CND_PACKAGE_DIR_Debug=dist/Debug/Cygwin-Windows/package
-CND_PACKAGE_NAME_Debug=gaddis7thedchap2prob18energydrink.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/gaddis7thedchap2prob18energydrink.tar
+CND_PACKAGE_NAME_Debug=savitch8thedch2prob4.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/savitch8thedch2prob4.tar
 # Release configuration
 CND_PLATFORM_Release=Cygwin-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/Cygwin-Windows
-CND_ARTIFACT_NAME_Release=gaddis_7thed_chap2_prob18_energy_drink
-CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/gaddis_7thed_chap2_prob18_energy_drink
+CND_ARTIFACT_NAME_Release=savitch_8thed_ch2_prob4
+CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/savitch_8thed_ch2_prob4
 CND_PACKAGE_DIR_Release=dist/Release/Cygwin-Windows/package
-CND_PACKAGE_NAME_Release=gaddis7thedchap2prob18energydrink.tar
-CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/gaddis7thedchap2prob18energydrink.tar
+CND_PACKAGE_NAME_Release=savitch8thedch2prob4.tar
+CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/savitch8thedch2prob4.tar
 #
 # include compiler specific variables
 #
