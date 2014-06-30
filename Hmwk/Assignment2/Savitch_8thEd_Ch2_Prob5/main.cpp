@@ -6,6 +6,7 @@
 
 //System Library
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 //User Defined Libraries
@@ -38,8 +39,9 @@ int main(int argc, char** argv) {
     monpay = face / durat;
 
     //Output the results
-    cout << "Face value of loan required = $" << face << endl;
-    cout << "Required monthly payment = $" << monpay << endl;
+    cout << setprecision(2) << fixed << showpoint;
+    cout << "Face value of loan required = $" << setw(9) << face << endl;
+    cout << "Required monthly payment =    $" << setw(9) << monpay << endl;
 
     //Exit Stage Right!
     return 0;

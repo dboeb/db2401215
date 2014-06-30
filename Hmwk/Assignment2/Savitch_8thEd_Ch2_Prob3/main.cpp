@@ -6,6 +6,7 @@
 
 //System Library
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 //User Defined Libraries
@@ -42,9 +43,10 @@ int main(int argc, char** argv) {
       
 
     //Output the results
-    cout << "Retroactive pay due to employee = $" << rpay << endl;
-    cout << "New annual salary = $" << nsalary << endl;
-    cout << "New monthly salary = $" << nmonsal << endl;
+    cout << setprecision(2) << fixed << showpoint;
+    cout << "Retroactive Pay =    $" << setw(10) << rpay << endl;
+    cout << "New Annual Salary =  $" << setw(10) << nsalary << endl;
+    cout << "New Monthly Salary = $" << setw(10) << nmonsal << endl;
 
     //Exit Stage Right!
     return 0;
