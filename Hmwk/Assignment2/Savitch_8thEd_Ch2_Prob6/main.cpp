@@ -17,16 +17,19 @@ using namespace std;
 //Execution Starts Here!
 int main(int argc, char** argv) {
     //Declare variables
-    int maxcap, //maximum room capacity
-        people, //number of people currently in room 
-        addpe, //how many additional people may legally attend if capacity not reached
-        expe; //how many people must leave to make room capacity legal
+    //Inputs and Constants
+    int maxcap;//maximum room capacity
+    int people;//number of people currently in room 
+    //Outputs
+    int addpe; //how many additional people may legally attend if capacity not reached
+    int expe;  //how many people must leave to make room capacity legal
  
-    //Input maximum room capacity and number of people attending the meeting
+    //Input Variables
     cout<<"What is the maximum room capacity?"<<endl;
-    cin>>maxcap;\
+    cin>>maxcap;
     cout<<"How many people are attending the meeting?"<<endl;
     cin>>people;
+    
     //Output the results
     if (people<=maxcap){
         addpe=maxcap-people;

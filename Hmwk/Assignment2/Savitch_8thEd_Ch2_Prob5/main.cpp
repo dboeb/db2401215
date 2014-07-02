@@ -17,31 +17,33 @@ using namespace std;
 
 //Execution Begins Here!
 int main(int argc, char** argv) {
-    //Declare and initialize variables
-    float need; //(known/input)Amount of money the costumer needs to receive in dollars
-    float inter; //(known/input)Interest rate in percent
-    float durat; //(known/input)The duration of the loan in months
-    float face; //(unknown)The actual face value of the loan in dollars
-    float monpay; //(unknown)Monthly payment in dollars
+    //Declare Variables
+    //Inputs
+    float need;  //Amount of money the costumer needs to receive in dollars
+    float inter; //Interest rate in percent
+    float durat; //The duration of the loan in months
+    //Outputs
+    float face;  //The actual face value of the loan in dollars
+    float monpay;//Monthly payment in dollars
     
-    //User Inputs
-    cout << "Enter the amount of money you need to receive in dollars:" << endl;
-    cin >> need;
-    cout << "Enter the interest rate of the loan in percent:" << endl;
-    cin >> inter;
-    cout << "Enter the duration of the loan in months" << endl;
-    cin >> durat;
+    //Input Values
+    cout<<"Enter the amount of money you need to receive in dollars:"<<endl;
+    cin>>need;
+    cout<<"Enter the interest rate of the loan in percent:"<<endl;
+    cin>>inter;
+    cout<<"Enter the duration of the loan in months"<<endl;
+    cin>>durat;
     
     //Calculations
     //Calculate the face value of the loan
-    face = need / (1-(inter / 100 )* (durat / 12));
+    face=need/(1-(inter/100)*(durat/12));
     //Calculate monthly payment
-    monpay = face / durat;
+    monpay=face/durat;
 
     //Output the results
-    cout << setprecision(2) << fixed << showpoint;
-    cout << "Face value of loan required = $" << setw(9) << face << endl;
-    cout << "Required monthly payment =    $" << setw(9) << monpay << endl;
+    cout<<setprecision(2)<< fixed<<showpoint;
+    cout<<"Face value of loan required = $"<<setw(9)<<face<<endl;
+    cout<<"Required monthly payment =    $"<<setw(9)<<monpay<<endl;
 
     //Exit Stage Right!
     return 0;

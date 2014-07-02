@@ -17,24 +17,29 @@ using namespace std;
 //Execution Starts Here!
 int main(int argc, char** argv) {
     //Declare variables
-    float hours;//(known/input)number of hours worked
-    int depend;//(known.input)number of dependants
-    const float WAGE=16.78,//(known,constant)pay rate in dollars per hour
-                HEALTH=35,//(known/constant)extra health insurance cost for dependants in dollars
-                UNDUE=10,//(known/constant)Union dues in dollars
-                SS=0.06,//(known/constant)Social security tax percent
-                FED=0.14,//(known/constant)Federal income tax percent
-                STATE=0.05;//(known/constant)State income tax percent
-    float grosspay,//(unknown)Workers gross pay in dollars
-          sstax,//(unknown)social security tax withholding amount in dollars
-          fedinc,//(unknown)federal income tax withholding amount in dollars
-          statinc,//(unknown)state income tax withholding amount in dollars
-          netpay;//(unknown)net take-home pay for the week in dollars
-    //Input hours worked and number of dependants
+    //Inputs and Constants
+    float hours;           //number of hours worked
+    int depend;            //number of dependants
+    const float WAGE=16.78;//pay rate in dollars per hour
+    const float HEALTH=35; //extra health insurance cost for dependants in dollars
+    const float UNDUE=10;  //Union dues in dollars
+    const float SS=0.06;   //Social security tax percent
+    const float FED=0.14;  //Federal income tax percent
+    const float STATE=0.05;//State income tax percent
+    //Outputs
+    float grosspay;        //Workers gross pay in dollars
+    float sstax;           //social security tax withholding amount in dollars
+    float fedinc;          //federal income tax withholding amount in dollars
+    float statinc;         //state income tax withholding amount in dollars
+    float netpay;          //net take-home pay for the week in dollars
+    
+    //Input Values
     cout<<"Enter the number of hours worked in a week:"<<endl;
     cin>>hours;
     cout<<"Enter the number of dependants"<<endl;
     cin>>depend;
+    
+    //Calculations
     //Calculate gross pay, each withholding amount, and the net take-home pay
     if (hours<=40){
         if (depend<3){
@@ -68,7 +73,8 @@ int main(int argc, char** argv) {
             netpay=grosspay-sstax-fedinc-statinc-HEALTH-UNDUE;
         }
     }
-    //Output gross pay, each withholding amount, and the net take-home pay
+    
+    //Output the results
     cout<<setprecision(2)<<fixed<<showpoint;
     cout<<"Gross Pay =                   $"<<setw(7)<<grosspay<<endl;
     cout<<"Social Security Tax =         $"<<setw(7)<<sstax<<endl;
@@ -78,6 +84,7 @@ int main(int argc, char** argv) {
     if (depend>=3)cout<<"Health Insurance Additional = $"<<setw(7)<<HEALTH<<endl;
     else cout<<"Health Insurance Additional = $   n/a"<<endl;
     cout<<"Net Take-Home Pay =           $"<<setw(7)<<netpay<<endl;
+    
     //Exit stage right
     return 0;
 }

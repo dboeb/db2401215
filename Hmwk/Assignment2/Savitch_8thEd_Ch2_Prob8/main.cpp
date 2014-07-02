@@ -19,7 +19,7 @@ using namespace std;
 int main(int argc, char** argv) {
     //Declare variables
     //Inputs
-    float cost;   //)cost of the item(s) in dollars
+    float cost;   //cost of the item(s) in dollars
     float years;  //number of years from now that the item will be purchased
     float inflate;//the rate of inflation in percent per year
     //Outputs
