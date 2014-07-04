@@ -376,16 +376,16 @@ int main(int argc, char** argv) {
                     //Calculate the roots
                     if (a==0){
                         root1=-c/b;
-                        root2='x';
+                        root2=root1;
                     }else if ((b*b-4*a*c)==0){
                         root1=-b/(2*a);
-                        root2='x';
+                        root2=root1;
                     }else if ((b*b-4*a*c)<0){
                         float complex;//Complex number for the root
                         complex=(pow(-1*(b*b-4*a*c),0.5)/(2*a));
                         root1=-b/(2*a);
                         root2=-b/(2*a);
-                        cout<<"first root  = "<<root1<<"+"<<complex<<"i"<<endl;
+                        cout<<"First root  = "<<root1<<"+"<<complex<<"i"<<endl;
                         cout<<"Second root = "<<root2<<"-"<<complex<<"i"<<endl;
                     }else{
                         root1=((-b+pow((b*b-4*a*c),0.5)))/(2*a);
