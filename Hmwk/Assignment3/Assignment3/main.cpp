@@ -171,7 +171,7 @@ int main(int argc, char** argv) {
                     //Declare Variables
                     //Inputs
                     float month;//month of the birthday between 1 and 12
-                    float day; //day of the month between 1 and 31
+                    float day;  //day of the month between 1 and 31
                     
                     //Input Values
                     cout<<"Enter your birthday:"<<endl;
