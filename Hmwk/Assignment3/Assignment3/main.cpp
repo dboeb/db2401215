@@ -172,9 +172,6 @@ int main(int argc, char** argv) {
                     //Inputs
                     float month;//month of the birthday between 1 and 12
                     float day; //day of the month between 1 and 31
-                    //Outputs
-                    float horo;//Horoscope for the birthday
-                    float cusp;//Cusp for the birthday
                     
                     //Input Values
                     cout<<"Enter your birthday:"<<endl;
