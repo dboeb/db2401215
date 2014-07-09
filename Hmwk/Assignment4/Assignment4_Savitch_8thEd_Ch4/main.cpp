@@ -16,9 +16,23 @@ using namespace std;
 const float GLPERLT=0.264179;//Number of gallons per liter for conversion
 
 //Function Prototypes
-float miles_per_gallon(float miles, float gallons)
-{
+float miles_per_gallon(float miles, float gallons){
     return(miles/gallons);
+}
+float stock_value(unsigned short wholeD, unsigned short frDnum, unsigned short frDden){
+    float value;
+    value=wholeD+static_cast<float>(frDnum)/frDden;
+    return(value);
+}
+float rate_of_inflation(float priceO, float priceN){
+    float infRate;
+    infRate=(priceN-priceO)/priceO*100;
+    return(infRate);
+}
+float future_cost(float priceO, float infRate){
+    float costF;
+    costF=priceO*(1+infRate/100);
+    return(costF);
 }
 
 //Execution Begins Here!
@@ -89,7 +103,7 @@ int main(int argc, char** argv) {
                     break;
                 }
                 case '2':{//Problem 2 Miles per Gallon for Two Cars
-                    bool loop2=true;
+                    bool loop1=true;
                     do{
                         //Declare Variables
                         //Inputs
@@ -142,40 +156,43 @@ int main(int argc, char** argv) {
                             case 'y':{
                                 break;
                             }default:{
-                                loop2=false;
+                                loop1=false;
                                 break;
                             }    
                         }
-                    }while(loop2);
+                    }while(loop1);
                     //Exit Stage Right!
                     break;
                 }
                 case '3':{//Problem 3 Stock Value
-                    bool loop3=true;
+                    bool loop1=true;
                     do{
                         //Declare Variables
                         //Inputs
-                        float liter;  //Liters of gasoline consumed by user's car
-                        float miles;  //Number of miles traveled by the car
+                        unsigned short shares;//Number of shares of stock owned
+                        unsigned short wholeD;//Whole-dollar portion of the price
+                        unsigned short frDnum;//Fraction-dollar numerator portion of the price
+                        unsigned short frDden;//Fraction-dollar denominator portion of the price
                         //Outputs
-                        float gallon;//Gallons of gasoline consumed by user's car
-                        float mpg;    //Miles per gallon the car delivered
+                        float totval;         //Value of the user's holdings in dollars
                     
                         //Input Values
-                        cout<<"Enter the liters of gasoline consumed by the car"<<endl;
-                        cin>>liter;
-                        cout<<"Enter the miles traveled by the car"<<endl;
-                        cin>>miles;
+                        cout<<"Enter the number of shares of stock owned"<<endl;
+                        cin>>shares;
+                        cout<<"Enter the whole-dollar portion of the price"<<endl;
+                        cin>>wholeD;
+                        cout<<"Enter the fraction-dollar numerator portion of the price"<<endl;
+                        cin>>frDnum;
+                        cout<<"Enter the fraction-dollar denominator portion of the price"<<endl;
+                        cin>>frDden;
                         
                         //Calculations
-                        //Calculate gallons
-                        gallon=liter*GLPERLT;
-                        //Calculate Miles per gallon
-                        mpg=miles_per_gallon(miles,gallon);
+                        //Calculate sum of all shares
+                        totval=shares*stock_value(wholeD,frDnum,frDden);
                         
                         //Output Results
-                        cout<<fixed<<showpoint<<setprecision(1);
-                        cout<<"Miles per Gallon = "<<mpg<<" mpg"<<endl;
+                        cout<<fixed<<showpoint<<setprecision(2);
+                        cout<<"Total value of holdings = $"<<totval<<endl;
                         
                         //Ask to repeat Problem
                         cout<<"Repeat Problem? Y/N"<<endl;
@@ -186,42 +203,142 @@ int main(int argc, char** argv) {
                             case 'y':{
                                 break;
                             }default:{
-                                loop3=false;
+                                loop1=false;
                                 break;
                             }    
                         }
-                    }while(loop3);
+                    }while(loop1);
                     //Exit Stage Right!
                     break;
                 }
-                case '4':{
-                    int sum=0,num=1;
+                case '4':{//Problem 4 Rate of Inflation
+                    bool loop1=true;
                     do{
-                        sum+=num++;
-                    }while(num<=10);
-                    cout<<endl;
-                    cout<<"Solution to 3 Do-While-loop, sum(1->10)="<<sum<<endl;
-                    cout<<endl;
+                        //Declare Variables
+                        //Inputs
+                        float priceO;//Price of an item in dollars one year ago
+                        float priceN;//Price of an item in dollars today
+                        //Outputs
+                        float inflat;//Inflation rate for the year in percent
+                    
+                        //Input Values
+                        cout<<"Enter the value of an item one year ago in dollars"<<endl;
+                        cin>>priceO;
+                        cout<<"Enter the value of that item today in dollars"<<endl;
+                        cin>>priceN;
+                        
+                        //Calculations
+                        //Calculate the inflation rate
+                        inflat=rate_of_inflation(priceO,priceN);
+                        
+                        //Output Results
+                        cout<<fixed<<showpoint<<setprecision(1);
+                        cout<<"Inflation Rate for this year = "<<inflat<<"%"<<endl;
+                        
+                        //Ask to repeat Problem
+                        cout<<"Repeat Problem? Y/N"<<endl;
+                        char repeat;
+                        cin>>repeat;
+                        switch(repeat){
+                            case 'Y':
+                            case 'y':{
+                                break;
+                            }default:{
+                                loop1=false;
+                                break;
+                            }    
+                        }
+                    }while(loop1);
+                    //Exit Stage Right!
                     break;
                 }
-                case '5':{
-                    int sum=0,num=1;
+                case '5':{//Problem 5 Future Price
+                    bool loop1=true;
                     do{
-                        sum+=num++;
-                    }while(num<=10);
-                    cout<<endl;
-                    cout<<"Solution to 3 Do-While-loop, sum(1->10)="<<sum<<endl;
-                    cout<<endl;
+                        //Declare Variables
+                        //Inputs
+                        float priceO; //Price of an item in dollars one year ago
+                        float priceN; //Price of an item in dollars today
+                        //Outputs
+                        float inflat; //Inflation rate for the year in percent
+                        float priceF1;//Future price of an item in dollars one year from now
+                        float priceF2;//Future price of an item in dollars two years from now
+                        
+                        //Input Values
+                        cout<<"Enter the value of an item one year ago in dollars"<<endl;
+                        cin>>priceO;
+                        cout<<"Enter the value of that item today in dollars"<<endl;
+                        cin>>priceN;
+                        
+                        //Calculations
+                        //Calculate the inflation rate
+                        inflat=rate_of_inflation(priceO,priceN);
+                        priceF1=future_cost(priceN,inflat);
+                        priceF2=future_cost(priceF1,inflat);
+                        
+                        //Output Results
+                        cout<<fixed<<showpoint<<setprecision(1);
+                        cout<<"Inflation Rate for this year = "<<inflat<<"%"<<endl;
+                        cout<<setprecision(2);
+                        cout<<"Cost of item one year from now =  $"<<priceF1<<endl;
+                        cout<<"Cost of item two years from now = $"<<priceF2<<endl;
+                        
+                        //Ask to repeat Problem
+                        cout<<"Repeat Problem? Y/N"<<endl;
+                        char repeat;
+                        cin>>repeat;
+                        switch(repeat){
+                            case 'Y':
+                            case 'y':{
+                                break;
+                            }default:{
+                                loop1=false;
+                                break;
+                            }    
+                        }
+                    }while(loop1);
+                    //Exit Stage Right!
                     break;
                 }
-                case '6':{
-                    int sum=0,num=1;
+                case '6':{//Problem 6 
+                    bool loop1=true;
                     do{
-                        sum+=num++;
-                    }while(num<=10);
-                    cout<<endl;
-                    cout<<"Solution to 3 Do-While-loop, sum(1->10)="<<sum<<endl;
-                    cout<<endl;
+                        //Declare Variables
+                        //Inputs
+                        float priceO;//Price of an item in dollars one year ago
+                        float priceN;//Price of an item in dollars today
+                        //Outputs
+                        float inflat;//Inflation rate for the year in percent
+                    
+                        //Input Values
+                        cout<<"Enter the value of an item one year ago in dollars"<<endl;
+                        cin>>priceO;
+                        cout<<"Enter the value of that item today in dollars"<<endl;
+                        cin>>priceN;
+                        
+                        //Calculations
+                        //Calculate the inflation rate
+                        inflat=rate_of_inflation(priceO,priceN);
+                        
+                        //Output Results
+                        cout<<fixed<<showpoint<<setprecision(1);
+                        cout<<"Inflation Rate for this year = "<<inflat<<"%"<<endl;
+                        
+                        //Ask to repeat Problem
+                        cout<<"Repeat Problem? Y/N"<<endl;
+                        char repeat;
+                        cin>>repeat;
+                        switch(repeat){
+                            case 'Y':
+                            case 'y':{
+                                break;
+                            }default:{
+                                loop1=false;
+                                break;
+                            }    
+                        }
+                    }while(loop1);
+                    //Exit Stage Right!
                     break;
                 }
                 case '7':{
