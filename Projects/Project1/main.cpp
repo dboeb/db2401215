@@ -29,6 +29,10 @@ int main(int argc, char** argv) {
     int card2;        //Card 2 value
     int card3;        //Additional card value
     int totval;       //Total value of all cards
+    int dcard1;       //Dealer's Card 1 value
+    int dcard2;       //Dealer's Card 2 value
+    int dcard3;       //Dealer's additional card value
+    int dtotval;      //Dealer's total value of all cards
     float wins=0;     //Number of wins
     float losses=0;   //Number of losses
     ofstream output;  //Output to file
@@ -55,7 +59,7 @@ int main(int argc, char** argv) {
         switch(aceval){
             case 'H':
             case 'h':{
-                cout<<"You started a new game and drew two cards"<<endl;
+                cout<<"You started a new game and was dealt two cards"<<endl;
                 int card1=rand()%13+1;
                 int card2=rand()%13+1;
                 if (card1==1){
@@ -88,8 +92,42 @@ int main(int argc, char** argv) {
                 }else{
                     cout<<"Card 2 = "<<card2<<endl;
                 }
+                cout<<"The Dealer now deals him/herself two cards"<<endl;
+                int dcard1=rand()%13+1;
+                int dcard2=rand()%13+1;
+                if (dcard1==1){
+                    cout<<"Dealer's Card 1 = Ace"<<endl;
+                    dcard1=11;
+                }else if (dcard1==11){
+                    cout<<"Dealer's Card 1 = Jack"<<endl;
+                    dcard1=10;
+                }else if (dcard1==12){
+                    cout<<"Dealer's Card 1 = Queen"<<endl;
+                    dcard1=10;
+                }else if (dcard1==13){
+                    cout<<"Dealer's Card 1 = King"<<endl;
+                    dcard1=10;
+                }else{
+                    cout<<"Dealer's Card 1 = "<<dcard1<<endl;
+                }
+                if (dcard2==1){
+                    cout<<"Dealer's Card 2 = ???"<<endl;
+                    dcard2=11;
+                }else if (dcard2==11){
+                    cout<<"Dealer's Card 2 = ???"<<endl;
+                    dcard2=10;
+                }else if (dcard2==12){
+                    cout<<"Dealer's Card 2 = ???"<<endl;
+                    dcard2=10;
+                }else if (dcard2==13){
+                    cout<<"Dealer's Card 2 = ???"<<endl;
+                    dcard2=10;
+                }else{
+                    cout<<"Dealer's Card 2 = ???"<<endl;
+                }
                 //Calculate total value of cards
                 totval=card1+card2;
+                dtotval=dcard1+dcard2;
                 cout<<"The total value of your cards is "<<totval<<endl;
                 cout<<"would you like to Hit or Stay? H/S"<<endl;
                 char choice;
@@ -118,33 +156,85 @@ int main(int argc, char** argv) {
                     if (totval<=21){
                         cout<<"would you like to Hit or Stay? H/S"<<endl;
                         cin>>choice;
+                    }else{
+                        choice=false;
                     }
                     
                 }
-                if (totval>21){
-                    cout<<"You Busted"<<endl;
+                
+                //Dealer's Turn
+                if (dtotval>=totval){
+                    cout<<"Dealer's shows his/her second card."<<endl;
+                    cout<<"Dealer's Card 2 = "<<dcard2<<endl;
+                    cout<<"The total Value of the Dealer's cards is "<<dtotval<<endl;
+                    cout<<"Dealer Wins"<<endl;
                     losses++;
-                }else if(totval==21){
-                    cout<<"You Win!"<<endl;
+                }else if (totval>21){
+                    cout<<"You Bust!"<<endl;
+                    losses++;
+                }else if (dtotval<totval||dtotval<=16&&dtotval<22){
+                    cout<<"Dealer's shows his/her second card."<<endl;
+                    cout<<"Dealer's Card 2 = "<<dcard2<<endl;
+                    cout<<"The total Value of the Dealer's cards is "<<dtotval<<endl;
+                    while (dtotval<totval||dtotval<=16&&dtotval<22){
+                        cout<<"The Dealer now deals him/herself an additional card"<<endl;
+                        int dcard3=rand()%13+1;
+                        if (dcard3==1){
+                            cout<<"Dealer's Next Card = Ace"<<endl;
+                            dcard3=11;
+                        }else if (dcard3==11){
+                            cout<<"Dealer's Next Card = Jack"<<endl;
+                            dcard3=10;
+                        }else if (dcard3==12){
+                            cout<<"Dealer's Next Card = Queen"<<endl;
+                            dcard3=10;
+                        }else if (dcard3==13){
+                            cout<<"Dealer's Next Card = King"<<endl;
+                            dcard3=10;
+                        }else{
+                            cout<<"Dealer's Next Card = "<<dcard3<<endl;
+                        }
+                        //Calculate total value of the Dealer's cards
+                        dtotval+=dcard3;
+                        cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
+                    }
+                    if (dtotval>21){
+                        cout<<"Dealer Busts"<<endl;
+                        cout<<"You Win!"<<endl;
+                        wins++;
+                    }else if (dtotval>=totval){
+                        cout<<"Dealer Wins"<<endl;
+                        losses++;
+                    }else{
+                        cout<<"You Win!"<<endl;
+                        wins++;
+                    }
+                    
+                }else{
+                    cout<<"Dealer's shows his/her second card."<<endl;
+                    cout<<"Dealer's Card 2 = "<<dcard2<<endl;
+                    cout<<"The total Value of the Dealer's cards is "<<dtotval<<endl;
+                    cout<<"You win!"<<endl;
                     wins++;
-                }else if(totval<21){
-                    cout<<"You lose"<<endl;
-                    losses++;
                 }
+                //End of Game
                 break;
             }
             case 'L':
             case 'l':{
                 
+                //End of Game
                 break;
             }
             case 'E':
             case 'e':{
                 
+                //End of Game
                 break;
             }
             default:{
                 
+                //End of Game
                 break;
             }
         }
@@ -153,6 +243,7 @@ int main(int argc, char** argv) {
         cout<<"Play Again? Y/N"<<endl;
         char repeat;
         cin>>repeat;
+        cout<<endl;
         switch(repeat){
             case 'Y':
             case 'y':{
@@ -168,10 +259,10 @@ int main(int argc, char** argv) {
     
     
     //Output the results to file
-    output.open("Ace.txt");
+    output.open("Results.txt");
     output<<"Total Wins = "<<wins<<endl;
     output<<" Total Losses = "<<losses<<endl;
-    cout<<"Your Total Wins and Losses were exported to 'Ace.txt' file"<<endl;
+    cout<<"Your Total Wins and Losses can be seen in the 'Results.txt' file"<<endl;
     
     //Exit Stage Right!
     input.close();
