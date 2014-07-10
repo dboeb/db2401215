@@ -34,6 +34,17 @@ float future_cost(float priceO, float infRate){
     costF=priceO*(1+infRate/100);
     return(costF);
 }
+float credit_card_interest_due(float intrate, float account, unsigned short months){
+    float intdue;
+    float baldue=account;
+    int n=0;
+    do{
+        intdue=baldue*intrate/100;
+        baldue+=intdue;
+        n++;
+    }while(n<months);
+    return(intdue);
+}
 
 //Execution Begins Here!
 int main(int argc, char** argv) {
@@ -300,29 +311,32 @@ int main(int argc, char** argv) {
                     //Exit Stage Right!
                     break;
                 }
-                case '6':{//Problem 6 
+                case '6':{//Problem 6 Credit Card Interest
                     bool loop1=true;
                     do{
                         //Declare Variables
                         //Inputs
-                        float priceO;//Price of an item in dollars one year ago
-                        float priceN;//Price of an item in dollars today
+                        float intrate;        //Monthly interest rate in percent
+                        float account;        //Initial account balance in dollars
+                        unsigned short months;//Number of months for which interest must be paid
                         //Outputs
-                        float inflat;//Inflation rate for the year in percent
+                        float inter;          //Interest due in dollars
                     
                         //Input Values
-                        cout<<"Enter the value of an item one year ago in dollars"<<endl;
-                        cin>>priceO;
-                        cout<<"Enter the value of that item today in dollars"<<endl;
-                        cin>>priceN;
+                        cout<<"Enter the monthly interest rate of the credit card in percent"<<endl;
+                        cin>>intrate;
+                        cout<<"Enter the initial account balance in dollars"<<endl;
+                        cin>>account;
+                        cout<<"Enter the number of months for which the interest must be paid"<<endl;
+                        cin>>months;
                         
                         //Calculations
-                        //Calculate the inflation rate
-                        inflat=rate_of_inflation(priceO,priceN);
+                        //Calculate the interest due
+                        inter=credit_card_interest_due(intrate,account,months);
                         
                         //Output Results
-                        cout<<fixed<<showpoint<<setprecision(1);
-                        cout<<"Inflation Rate for this year = "<<inflat<<"%"<<endl;
+                        cout<<fixed<<showpoint<<setprecision(2);
+                        cout<<"Interest Due = $"<<inter<<endl;
                         
                         //Ask to repeat Problem
                         cout<<"Repeat Problem? Y/N"<<endl;
