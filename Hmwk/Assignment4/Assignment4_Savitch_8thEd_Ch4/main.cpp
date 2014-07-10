@@ -13,7 +13,8 @@ using namespace std;
 //User Defined Libraries
 
 //Global Constants
-const float GLPERLT=0.264179;//Number of gallons per liter for conversion
+const float GLPERLT=2.64179e-1;//Number of gallons per liter for conversion
+const float GRACONS=6.673e-8;  //Universal Gravitational Constant in cm^3/(g*sec^2)
 
 //Function Prototypes
 float miles_per_gallon(float miles, float gallons){
@@ -44,6 +45,11 @@ float credit_card_interest_due(float intrate, float account, unsigned short mont
         n++;
     }while(n<months);
     return(intdue);
+}
+float gravitational_attractive_force(float mass1, float mass2, float dist){
+    float atForce;
+    atForce=GRACONS*mass1*mass2/(dist*dist);
+    return(atForce);
 }
 
 //Execution Begins Here!
@@ -355,44 +361,229 @@ int main(int argc, char** argv) {
                     //Exit Stage Right!
                     break;
                 }
-                case '7':{
-                    int sum=0,num=1;
+                case '7':{//Problem 7 Gravitational Force
+                    bool loop1=true;
                     do{
-                        sum+=num++;
-                    }while(num<=10);
-                    cout<<endl;
-                    cout<<"Solution to 3 Do-While-loop, sum(1->10)="<<sum<<endl;
-                    cout<<endl;
+                        //Declare Variables
+                        //Inputs
+                        float mass1;//mass one in grams
+                        float mass2;//mass two in grams
+                        float dist; //distance between masses in centimeters
+                        //Outputs
+                        float force;//force in dynes [g*cm/sec^2]
+                    
+                        //Input Values
+                        cout<<"Enter the mass of body one in grams"<<endl;
+                        cin>>mass1;
+                        cout<<"Enter the mass of body two in grams"<<endl;
+                        cin>>mass2;
+                        cout<<"Enter the distance between the bodies in centimeters"<<endl;
+                        cin>>dist;
+                        
+                        //Calculations
+                        //Calculate the gravitational force
+                        force=gravitational_attractive_force(mass1,mass2,dist);
+                        
+                        //Output Results
+                        cout<<"Gravitational Force = "<<force<<" dynes [g*cm/sec^2]"<<endl;
+                        
+                        //Ask to repeat Problem
+                        cout<<"Repeat Problem? Y/N"<<endl;
+                        char repeat;
+                        cin>>repeat;
+                        switch(repeat){
+                            case 'Y':
+                            case 'y':{
+                                break;
+                            }default:{
+                                loop1=false;
+                                break;
+                            }    
+                        }
+                    }while(loop1);
+                    //Exit Stage Right!
                     break;
                 }
-                case '8':{
-                    int sum=0,num=1;
+                case '8':{//Problem 8 Cost of House
+                    bool loop1=true;
                     do{
-                        sum+=num++;
-                    }while(num<=10);
-                    cout<<endl;
-                    cout<<"Solution to 3 Do-While-loop, sum(1->10)="<<sum<<endl;
-                    cout<<endl;
+                        //Declare Variables
+                        //Inputs
+                        float cost;   //Cost of House in dollars
+                        float downPay;//Down payment in dollars
+                        //Outputs
+                        float princip;//Principle in dollars
+                        float inter;  //Interest in dollars
+                        float aftTaxC;//Annual after-tax cost of a new house in dollars
+                    
+                        //Input Values
+                        cout<<"Enter the cost of the house in dollars"<<endl;
+                        cin>>cost;
+                        cout<<"Enter the down payment in dollars"<<endl;
+                        cin>>downPay;
+                        
+                        //Calculations
+                        //Calculate the principle
+                        princip=3e-2*(cost-downPay);
+                        //Calculate the interest
+                        inter=6e-2*(cost-downPay);
+                        //Calculate annual after-tax cost
+                        aftTaxC=princip+inter*(1-3.5e-1);
+                        
+                        //Output Results
+                        cout<<"Annual after-tax cost of a new"<<endl;
+                        cout<<"house for first year of ownership"<<endl;
+                        cout<<" = $"<<aftTaxC<<endl;
+                        
+                        //Ask to repeat Problem
+                        cout<<"Repeat Problem? Y/N"<<endl;
+                        char repeat;
+                        cin>>repeat;
+                        switch(repeat){
+                            case 'Y':
+                            case 'y':{
+                                break;
+                            }default:{
+                                loop1=false;
+                                break;
+                            }    
+                        }
+                    }while(loop1);
+                    //Exit Stage Right!
                     break;
                 }
-                case '9':{
-                    int sum=0,num=1;
+                case '9':{//Problem 9 Clothing Size
+                    bool loop1=true;
                     do{
-                        sum+=num++;
-                    }while(num<=10);
-                    cout<<endl;
-                    cout<<"Solution to 3 Do-While-loop, sum(1->10)="<<sum<<endl;
-                    cout<<endl;
+                        //Declare Variables
+                        //Inputs
+                        int height;//Height in inches
+                        int weight;//Weight in pounds
+                        int age;   //Age in Years
+                        //Outputs
+                        int hat;   //Hat size
+                        int jacket;//Jacket size, chest size in inches
+                        int waist; //Waist size in inches
+                    
+                        //Input Values
+                        cout<<"Enter your height in inches"<<endl;
+                        cin>>height;
+                        cout<<"Enter your weight in pounds"<<endl;
+                        cin>>weight;
+                        cout<<"Enter your age in years"<<endl;
+                        cin>>age;
+                        
+                        //Calculations
+                        //Calculate the hat size
+                        hat=(static_cast<float>(weight)/height)*2.9e0;
+                        //Calculate the jacket size
+                        jacket=height*weight/2.88e2f;
+                        if (age>30){
+                            jacket+=1e0f/8*((age-30)/10);
+                        }
+                        //Calculate the waist size
+                        waist=weight/5.7e0f;
+                        if (age>28){
+                            waist+=1e0f/10*((age-28)/2);
+                        }
+                        
+                        //Output Results
+                        cout<<"Hat size = "<<hat<<endl;
+                        cout<<"Jacket Size = "<<jacket<<" in"<<endl;
+                        cout<<"Waist Size = "<<waist<<" in"<<endl;
+                        
+                        //Ask to repeat Problem
+                        cout<<"Repeat Problem? Y/N"<<endl;
+                        char repeat;
+                        cin>>repeat;
+                        switch(repeat){
+                            case 'Y':
+                            case 'y':{
+                                break;
+                            }default:{
+                                loop1=false;
+                                break;
+                            }    
+                        }
+                    }while(loop1);
+                    //Exit Stage Right!
                     break;
                 }
-                case '0':{
-                    int sum=0,num=1;
+                case '0':{//Problem 10 Clothing Size After 10 Years
+                    bool loop1=true;
                     do{
-                        sum+=num++;
-                    }while(num<=10);
-                    cout<<endl;
-                    cout<<"Solution to 3 Do-While-loop, sum(1->10)="<<sum<<endl;
-                    cout<<endl;
+                        //Declare Variables
+                        //Inputs
+                        int height;   //Height in inches
+                        int weight;   //Weight in pounds
+                        int age;      //Age in Years
+                        //Outputs
+                        int ageold;   //Age after 10 years 
+                        float hat;    //Hat size
+                        float jacket; //Jacket size, chest size in inches
+                        float waist;  //Waist size in inches
+                        float jacketO;//Jacket size after 10 years
+                        float waistO; //Waist size after 10 years
+                    
+                        //Input Values
+                        cout<<"Enter your height in inches"<<endl;
+                        cin>>height;
+                        cout<<"Enter your weight in pounds"<<endl;
+                        cin>>weight;
+                        cout<<"Enter your age in years"<<endl;
+                        cin>>age;
+                        
+                        //Calculations
+                        //Calculate the hat size
+                        hat=(static_cast<float>(weight)/height)*2.9e0;
+                        //Calculate the jacket size
+                        jacket=height*weight/2.88e2f;
+                        if (age>30){
+                            jacket+=1e0f/8*((age-30)/10);
+                        }
+                        //Calculate the waist size
+                        waist=weight/5.7e0f;
+                        if (age>28){
+                            waist+=1e0f/10*((age-28)/2);
+                        }
+                        //Calculate age after 10 years
+                        ageold=age+1.0e1;
+                        //Calculate the jacket size after 10 years
+                        jacketO=height*weight/2.88e2f;
+                        if (ageold>30){
+                            jacketO+=1e0f/8*((ageold-30)/10);
+                        } 
+                        //Calculate the waist size after 10 years
+                        waistO=weight/5.7e0f;
+                        if (ageold>28){
+                            waistO+=1e0f/10*((ageold-28)/2);
+                        }
+                        
+                        //Output Results
+                        cout<<fixed<<setprecision(0);//Rounds to nearest integer
+                        cout<<"Hat size = "<<hat<<endl;
+                        cout<<"Jacket Size = "<<jacket<<" in"<<endl;
+                        cout<<"Waist Size = "<<waist<<" in"<<endl;
+                        cout<<"In 10 years your sizes will be:"<<endl;
+                        cout<<"Hat size = "<<hat<<endl;
+                        cout<<"Jacket Size = "<<jacketO<<" in"<<endl;
+                        cout<<"Waist Size = "<<waistO<<" in"<<endl;
+                        
+                        //Ask to repeat Problem
+                        cout<<"Repeat Problem? Y/N"<<endl;
+                        char repeat;
+                        cin>>repeat;
+                        switch(repeat){
+                            case 'Y':
+                            case 'y':{
+                                break;
+                            }default:{
+                                loop1=false;
+                                break;
+                            }    
+                        }
+                    }while(loop1);
+                    //Exit Stage Right!
                     break;
                 }
                 default:{
