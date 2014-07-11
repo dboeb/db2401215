@@ -59,8 +59,9 @@ int main(int argc, char** argv) {
     bool loop=true;
     do{
         switch(aceval){
+            //Ace is High
             case 'H':
-            case 'h':{//Ace is High
+            case 'h':{
                 cout<<"You started a new game and was dealt two cards"<<endl;
                 cout<<"Aces are High"<<endl;
                 int card1=rand()%13+1;
@@ -214,7 +215,6 @@ int main(int argc, char** argv) {
                         cout<<"You Win!"<<endl;
                         wins++;
                     }
-                    
                 }else{
                     cout<<"Dealer's shows his/her second card."<<endl;
                     cout<<"Dealer's Card 1 = "<<dcard1<<endl;
@@ -226,8 +226,10 @@ int main(int argc, char** argv) {
                 //End of Game
                 break;
             }
+            
+            //Ace is Low
             case 'L':
-            case 'l':{//Ace is Low
+            case 'l':{
                 cout<<"You started a new game and was dealt two cards"<<endl;
                 cout<<"Aces are Low"<<endl;
                 int card1=rand()%13+1;
@@ -393,7 +395,9 @@ int main(int argc, char** argv) {
                 //End of Game
                 break;
             }
-            default:{//Ace is Either
+            
+            //Ace is Either
+            default:{
                 cout<<"You started a new game and was dealt two cards"<<endl;
                 cout<<"Aces are Either High or Low"<<endl;
                 int card1=rand()%13+1;
@@ -535,7 +539,6 @@ int main(int argc, char** argv) {
                     }else{
                         choice=false;
                     }
-                    
                 }
                 //Calculate Total Value of Dealer's Cards
                 if (dcard1>10&&dcard2>10){
@@ -724,9 +727,6 @@ int main(int argc, char** argv) {
             }    
         }
     }while(loop);
-    
-    //Calculations???
-    
     
     //Output the results to file
     output.open("Results.txt");
