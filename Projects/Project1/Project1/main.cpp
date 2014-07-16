@@ -59,9 +59,15 @@ int main(int argc, char** argv) {
     cout<<"that an Ace has a value of 1 or 11. It is recommended to"<<endl;
     cout<<"play with 'Either'."<<endl;
     cout<<endl;
-    //Open the Input file and Input Ace Type
+    //Open the Input file
     input.open("Ace.txt");
-    input>>acetype;
+    //Test File For Open Failures
+    if (!input){
+        cout<<"File Open Failure"<<endl;
+    //Input Ace Type
+    }else{
+        input>>acetype;
+    }
     
     //Determine Game Type
     if (!strcmp(acetype,High)){
