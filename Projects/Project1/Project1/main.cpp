@@ -17,6 +17,7 @@ using namespace std;
 
 //Global Constants
 const int PERCENT=100;//Ratio to Percent Conversion
+
 //Function Prototypes
 
 //Execution Starts Here!
@@ -58,9 +59,8 @@ int main(int argc, char** argv) {
     cout<<"that an Ace has a value of 1 or 11. It is recommended to"<<endl;
     cout<<"play with 'Either'."<<endl;
     cout<<endl;
-    //Open the Input file
+    //Open the Input file and Input Ace Type
     input.open("Ace.txt");
-    //Input Ace Type
     input>>acetype;
     
     //Determine Game Type
@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
         int card2=rand()%13+1;
         
         //Output Player's Cards
-        //Output Card 1
+        //Output Player's Card 1
         if (card1==1){
             cout<<"Card 1 = Ace"<<endl;
             if (aceval=='H'||aceval=='E'){
@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
         }else{
             cout<<"Card 1 = "<<card1<<endl;
         }
-        //Output Card 2
+        //Output Player's Card 2
         if (card2==1){
             cout<<"Card 2 = Ace"<<endl;
             if (aceval=='H'||aceval=='E'){
@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
         int dcard2=rand()%13+1;
         
         //Output Dealer's Cards
-        //Output Card 1
+        //Output Dealer's Card 1
         if (dcard1==1){
             cout<<"Dealer's Card 1 = Ace"<<endl;
         }else if (dcard1==11){
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
         }else{
             cout<<"Dealer's Card 1 = "<<dcard1<<endl;
         }
-        //Output Card 2
+        //Output Dealer's Card 2
         cout<<"Dealer's Card 2 = ?"<<endl;
         
         //Calculate total value of Player's cards
@@ -171,7 +171,7 @@ int main(int argc, char** argv) {
             //Determine Value for Card3 for Player
             int card3=rand()%13+1;
             
-            //Output Card 3
+            //Output Player's Card 3
             if (card3==1){
                 cout<<"Next Card = Ace"<<endl;
                 if (aceval=='H'||aceval=='E'){
@@ -225,7 +225,7 @@ int main(int argc, char** argv) {
                     //Determine Value for Card 4 for Player
                     int card4=rand()%13+1;
                     
-                    //Output Card 4
+                    //Output Player's Card 4
                     if (card4==1){
                         cout<<"Next Card = Ace"<<endl;
                         if (aceval=='H'||aceval=='E'){
@@ -296,7 +296,7 @@ int main(int argc, char** argv) {
         if (dtotval>=totval){
             cout<<"Dealer's shows his/her second card."<<endl;
             //Output Dealer's Cards
-            //Output Card 1
+            //Output Dealer's Card 1
             if (dcard1==1){
                 cout<<"Dealer's Card 1 = Ace"<<endl;
             }else if (dcard1==11){
@@ -308,7 +308,7 @@ int main(int argc, char** argv) {
             }else{
                 cout<<"Dealer's Card 1 = "<<dcard1<<endl;
             }
-            //Output Card 2
+            //Output Dealer's Card 2
             if (dcard2==1){
                 cout<<"Dealer's Card 2 = Ace"<<endl;
             }else if (dcard2==11){
@@ -328,7 +328,7 @@ int main(int argc, char** argv) {
         }else if ((dtotval<totval||dtotval<=16)&&dtotval<22&&totval<22){
             cout<<"Dealer's shows his/her second card."<<endl;
             //Output Dealer's Cards
-            //Output Card 1
+            //Output Dealer's Card 1
             if (dcard1==1){
                 cout<<"Dealer's Card 1 = Ace"<<endl;
                 if (aceval=='H'||aceval=='E'){
@@ -348,7 +348,7 @@ int main(int argc, char** argv) {
             }else{
                 cout<<"Dealer's Card 1 = "<<dcard1<<endl;
             }
-            //Output Card 2
+            //Output Dealer's Card 2
             if (dcard2==1){
                 cout<<"Dealer's Card 2 = Ace"<<endl;
                 if (aceval=='H'||aceval=='E'){
