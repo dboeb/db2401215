@@ -444,7 +444,7 @@ void def(int inN){
     cout<<"You typed "<<inN<<" to exit the program"<<endl;
 }
 
-//Function for Problem 9 Outputs
+//Function for Problem 10 Outputs
 //Inputs
 //    pounds  ->Number of pounds
 //    ounces  ->Number of ounces
@@ -470,6 +470,12 @@ void kg_to_lb(int kilos,int grams,int& pounds,int& ounces){
     ounces=ounces-pounds*16;
 }
 
+//Function for Problem 10 Inputs
+//Inputs
+//    kilos  ->number of kilograms for weight
+//    grams  ->number of grams for weight
+//Outputs
+//    NONE
 void prob10In(int& kilos,int& grams){
     //Input Values
     cout<<"Enter the weight in kilograms and grams:"<<endl;
