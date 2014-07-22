@@ -15,6 +15,8 @@ using namespace std;
 //User Defined Libraries
 
 //Global Constants
+const float IN2CENT=2.54;//Conversion from inches to centimeters
+const float OU2GRAM=28.3495;//Conversion from ounces to grams
 
 //Function Prototypes
 void Menu();
@@ -37,7 +39,18 @@ void ave_and_stDev(int,int,int,int,float&,float&);
 float average(int,int,int,int);
 float sta_dev(int,int,int,int,float);
 void compute_coins(int,int&,int&);
-
+void prob6In(int&,int&);
+void ft_to_mtrs(int,int,int&,int&);
+void prob6Ou(int,int);
+void prob7In(int&,int&);
+void mtrs_to_ft(int,int,int&,int&);
+void prob7Ou(int,int);
+void prob9In(int&,int&);
+void lb_to_kg(int,int,int&,int&);
+void prob9Ou(int,int);
+void prob10In(int&,int&);
+void kg_to_lb(int,int,int&,int&);
+void prob10Ou(int,int);
 
 //Execution begins here
 int main(int argv,char *argc[]){
@@ -278,32 +291,315 @@ void problem5(){
 
 //Solution to problem 6
 void problem6(){
-    cout<<"In problem # 6"<<endl<<endl;
+    //Declare Variables
+    //Inputs
+    int feet;  //Number of feet
+    int inches;//Number of inches
+    //Outputs
+    int meters;//Number of meters
+    int centi; //Number of centimeters
+    
+    //Input Values
+    prob6In(feet,inches);
+    
+    //Calculations
+    //Calculate length in Metric Units
+    ft_to_mtrs(feet,inches,meters,centi);
+    
+    //Output Results
+    prob6Ou(meters,centi);
+    
+    //Exit Stage Right!
+    cout<<endl<<endl;
 }
 
 //Solution to problem 7
 void problem7(){
-    cout<<"In problem # 7"<<endl<<endl;
+    //Declare Variables
+    //Inputs
+    int meters;//Number of meters
+    int centi; //Number of centimeters
+    //Outputs
+    int feet;  //Number of feet
+    int inches;//Number of inches
+    
+    //Input Values
+    prob7In(meters,centi);
+    
+    //Calculations
+    //Calculate length in Metric Units
+    mtrs_to_ft(meters,centi,feet,inches);
+    
+    //Output Results
+    prob7Ou(feet,inches);
+    
+    //Exit Stage Right!
+    cout<<endl<<endl;
 }
 
 //Solution to problem 8
 void problem8(){
-    cout<<"In problem # 8"<<endl<<endl;
+    //Declare Variables
+    //Inputs or Outputs (Depending on User Decision)
+    char choice;//Choice for conversion
+    int meters; //Number of meters
+    int centi;  //Number of centimeters
+    //Outputs or Inputs (Depending on User Decision)
+    int feet;   //Number of feet
+    int inches; //Number of inches
+    
+    //Input Values
+    cout<<"Enter 'M' to convert English Units to Metric Units"<<endl;
+    cout<<"Or Enter 'E' to convert Metric Units to English Units"<<endl;
+    cin>>choice;
+    switch(choice){
+            case 'M':
+            case 'm':{
+                prob6In(feet,inches);
+                break;
+            }
+            case 'E':
+            case 'e':{
+                prob7In(meters,centi);
+                break;
+            }
+            default:{
+                //Defaulted to convert Metric Units to English Units because America Uses English Units
+                cout<<"Invalid input, defaulted to convert Metric Units to English Units"<<endl;
+                prob7In(meters,centi);
+                choice='E';
+                break;
+            }
+    }
+    
+    //Calculations
+    //Calculate length conversion
+    if (choice=='M'||choice=='m'){
+        ft_to_mtrs(feet,inches,meters,centi);
+    }else{
+        mtrs_to_ft(meters,centi,feet,inches);
+    }
+    
+    //Output Results
+    if (choice=='M'||choice=='m'){
+        prob6Ou(meters,centi);
+    }else{
+        prob7Ou(feet,inches);
+    }
+    
+    //Exit Stage Right!
+    cout<<endl<<endl;
 }
 
 //Solution to problem 9
 void problem9(){
-    cout<<"In problem # 9"<<endl<<endl;
+    //Declare Variables
+    //Inputs
+    int pounds;//Number of pounds
+    int ounces;//Number of ounces
+    //Outputs
+    int kilos; //Number of kilograms
+    int grams; //Number of grams
+    
+    //Input Values
+    prob9In(pounds,ounces);
+    
+    //Calculations
+    //Calculate weight in Metric Units
+    lb_to_kg(pounds,ounces,kilos,grams);
+    
+    //Output Results
+    prob9Ou(kilos,grams);
+    
+    //Exit Stage Right!
+    cout<<endl<<endl;
 }
 
 //Solution to problem 10
 void problem10(){
-    cout<<"In problem # 10"<<endl<<endl;
+    //Declare Variables
+    //Inputs
+    int kilos; //Number of kilograms
+    int grams; //Number of grams
+    //Outputs
+    int pounds;//Number of pounds
+    int ounces;//Number of ounces
+    
+    //Input Values
+    prob10In(kilos,grams);
+    
+    //Calculations
+    //Calculate weight in English Units
+    kg_to_lb(kilos,grams,pounds,ounces);
+    
+    //Output Results
+    prob10Ou(pounds,ounces);
+    
+    //Exit Stage Right!
+    cout<<endl<<endl;
 }
 
 //Exit Comment
 void def(int inN){
     cout<<"You typed "<<inN<<" to exit the program"<<endl;
+}
+
+//Function for Problem 9 Outputs
+//Inputs
+//    pounds  ->Number of pounds
+//    ounces  ->Number of ounces
+//Outputs
+//    NONE
+void prob10Ou(int pounds,int ounces){
+    cout<<"The weight in English Units is"<<endl;
+    cout<<pounds<<" pounds and "<<ounces<<" ounces"<<endl;
+}
+
+//Weight Conversion from Metric to English Units
+//Inputs
+//    kilos  ->number of kilograms
+//    grams  ->number of grams
+//    pounds ->number of pounds
+//    ounces ->number of ounces
+//Outputs
+//    NONE
+void kg_to_lb(int kilos,int grams,int& pounds,int& ounces){
+    grams=kilos*1000+grams;
+    ounces=grams/OU2GRAM;
+    pounds=ounces/16;
+    ounces=ounces-pounds*16;
+}
+
+void prob10In(int& kilos,int& grams){
+    //Input Values
+    cout<<"Enter the weight in kilograms and grams:"<<endl;
+    cout<<"First enter the kilograms"<<endl;
+    cin>>kilos;
+    cout<<"Now enter the grams"<<endl;
+    cin>>grams;
+}
+
+//Function for Problem 9 Outputs
+//Inputs
+//    kilos  ->Number of kilograms
+//    grams  ->Number of grams
+//Outputs
+//    NONE
+void prob9Ou(int kilos,int grams){
+    cout<<"The weight in Metric Units is"<<endl;
+    cout<<kilos<<" kilograms and "<<grams<<" grams"<<endl;
+}
+
+//Weight Conversion from English to Metric Units
+//Inputs
+//    pounds ->number of pounds
+//    ounces ->number of ounces
+//    kilos  ->number of kilograms
+//    grams  ->number of grams
+//Outputs
+//    NONE
+void lb_to_kg(int pounds,int ounces,int& kilos,int& grams){
+    ounces=ounces+pounds*16;
+    grams=ounces*OU2GRAM;
+    kilos=grams/1000;
+    grams=grams-kilos*1000;
+}
+
+//Function for Problem 9 Inputs
+//Inputs
+//    pounds  ->number of pounds for weight
+//    ounces  ->number of ounces for weight
+//Outputs
+//    NONE
+void prob9In(int& pounds,int& ounces){
+    //Input Values
+    cout<<"Enter the weight in pounds and ounces:"<<endl;
+    cout<<"First enter the pounds"<<endl;
+    cin>>pounds;
+    cout<<"Now enter the ounces"<<endl;
+    cin>>ounces;
+}
+
+//Function for Problem 7 Outputs
+//Inputs
+//    feet    ->Number of feet
+//    inches  ->Number of inches
+//Outputs
+//    NONE
+void prob7Ou(int feet,int inches){
+    cout<<"The length in English Units is"<<endl;
+    cout<<feet<<" feet and "<<inches<<" inches"<<endl;
+}
+
+//Length Conversion from Metric to English Units
+//Inputs
+//    feet   ->number of feet
+//    inches ->number of inches
+//    meters ->number of meters
+//    centi  ->number of centimeters
+//Outputs
+//    NONE
+void mtrs_to_ft(int meters,int centi,int& feet,int& inches){
+    centi=meters*100+centi;
+    inches=centi/IN2CENT;
+    feet=inches/12;
+    inches=inches-feet*12;
+}
+
+//Function for Problem 7 Inputs
+//Inputs
+//    meters ->number of meters for length
+//    centi  ->number of centimeters for length
+//Outputs
+//    NONE
+void prob7In(int& meters,int& centi){
+    //Input Values
+    cout<<"Enter the length in meters and centimeters:"<<endl;
+    cout<<"First enter the meters"<<endl;
+    cin>>meters;
+    cout<<"Now enter the centimeters"<<endl;
+    cin>>centi;
+}
+
+//Function for Problem 6 Outputs
+//Inputs
+//    meters ->Number of meters
+//    centi  ->Number of centimeters
+//Outputs
+//    NONE
+void prob6Ou(int meters,int centi){
+    cout<<"The length in Metric Units is"<<endl;
+    cout<<meters<<" meters and "<<centi<<" centimeters"<<endl;
+}
+
+//Length Conversion from English to Metric Units
+//Inputs
+//    feet   ->number of feet
+//    inches ->number of inches
+//    meters ->number of meters
+//    centi  ->number of centimeters
+//Outputs
+//    NONE
+void ft_to_mtrs(int feet,int inches,int& meters,int& centi){
+    inches=inches+feet*12;
+    centi=inches*IN2CENT;
+    meters=centi/100;
+    centi=centi-meters*100;
+}
+
+//Function for Problem 6 Inputs
+//Inputs
+//    feet    ->number of feet for length
+//    inches  ->number of inches for length
+//Outputs
+//    NONE
+void prob6In(int& feet,int& inches){
+    //Input Values
+    cout<<"Enter the length in feet and inches:"<<endl;
+    cout<<"First enter the feet"<<endl;
+    cin>>feet;
+    cout<<"Now enter the inches"<<endl;
+    cin>>inches;
 }
 
 //Calculation for Standard Deviation
