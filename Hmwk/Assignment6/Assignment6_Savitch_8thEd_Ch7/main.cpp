@@ -10,11 +10,13 @@
 #include <ctime>
 #include <iomanip>
 #include <cmath>
+#include <cstring>
 using namespace std;
 
 //User Defined Libraries
 
 //Global Constants
+const int COLS1=4;//Set Columns to 3 for Problem 1
 
 //Function Prototypes
 void Menu();
@@ -30,6 +32,7 @@ void problem7();
 void problem8();
 void problem9();
 void problem10();
+int hex_to_10(char,int);
 
 //Execution begins here
 int main(int argv,char *argc[]){
@@ -78,50 +81,135 @@ int getN(){
 
 //Solution to problem 1
 void problem1(){
-    cout<<"Solve for PI using infinite sequence"<<endl<<endl;
-    //Display exact values of PI
-    cout<<"Pi = "<<fixed<<setprecision(15)<<atan(1)*4<<endl<<endl;
-    //Declare variables
-    double approxPI=0;
-    //Ask how man terms in the sequence
-    int terms;
-    cout<<"How many terms to approximate PI"<<endl;
-    cout<<"Sequence = 4*(1/1-1/3+1/5-1/7+1/9-1/11+........)"<<endl;
-    cin>>terms;
-    //Calculate using the infinite sequence
-    char sign=-1;
-    for(int i=1;i<=terms;i+=2){
-        sign*=-1;
-        approxPI+=1.0/i*sign;
+    //Declare Variables
+    //Inputs
+    const int ROWS=12;       //Set Number of Rows to 12 for each month
+    int raArray[ROWS][COLS1];//2-d array for rainfall each month
+    char choice;             //User's choice for graph or table
+    //Outputs
+    int month;               //Current Month Number
+    int diff;                //Difference 
+    
+    //Input Values
+    for(int row=0;row<ROWS;row++){
+        for(int col=0;col<COLS1;col++){
+            month=row+1;
+            if (col==0){
+                //Input the Month
+                raArray[row][col]=month;
+            }else if (col==1){
+                cout<<"Enter Average Rainfall in inches for month "<<month<<endl;
+                cin>>raArray[row][col];
+            }else if (col==2){
+                cout<<"Enter Actual Rainfall in inches for month "<<month<<endl;
+                cin>>raArray[row][col];
+            }else{
+                //Calculate Difference in Average and Actual Rainfall
+                diff=raArray[row][col-1]-raArray[row][col-2];
+                raArray[row][col]=diff;
+            }
+        }
     }
-    approxPI*=4;
-    //Output the approx ans
-    cout<<"The approximate value of PI = "<<approxPI<<endl<<endl;
+    cout<<"Enter 'G' to view the bar graph or 'T' to view the table"<<endl;
+    cin>>choice;
+    
+    //Output Results
+    //Output Bar Graph
+    if (choice=='G'||choice=='g'){
+        cout<<endl;
+        for(int row=0;row<ROWS;row++){
+            month=row+1;
+            cout<<"For Month "<<month<<endl;
+            for(int col=1;col<COLS1-1;col++){
+                if (col==1){
+                    cout<<"    Average Rainfall ";
+                }else{
+                    cout<<"    Actual Rainfall  ";
+                }
+                int n;
+                n=raArray[row][col];
+                for(int count=1;count<=n;count++){
+                    cout<<"*";
+                }
+                cout<<endl;
+            }
+            cout<<endl;
+        }
+        cout<<endl<<endl;
+    //Output Table
+    }else{
+        cout<<endl;
+        cout<<"     Month     Average    Actual    Difference"<<endl;
+        cout<<"               Rainfall   Rainfall"<<endl;
+        for(int row=0;row<ROWS;row++){
+            for(int col=0;col<COLS1;col++){
+                cout<<setw(8)<<raArray[row][col]<<"   ";
+            }
+            cout<<endl;
+        }
+        cout<<endl<<endl;
+    }
+    
+    //Exit Stage Right
+    cout<<endl<<endl;
 }
 
 //Solution to problem 2
 void problem2(){
-    cout<<"Random Integration to find PI again"<<endl<<endl;
-    //Display exact values of PI
-    cout<<"Pi = "<<fixed<<setprecision(15)<<atan(1)*4<<endl<<endl;
-    //Declare variables
-    int nDarts,inCircle=0,maxRandom=pow(2,31);
-    float approxPI=0;
-    //Ask question as to number of darts
-    cout<<"During the dart game, How many darts do you want to throw"<<endl;
-    cin>>nDarts;
-    //Set the random number seed
-    srand(static_cast<unsigned int>(time(0)));
-    //Start playing the game
-    for(int throwDart=1;throwDart<=nDarts;throwDart++){
-        float x=1.0f*rand()/maxRandom;
-        float y=1.0f*rand()/maxRandom;
-        if((x*x+y*y)<=1)inCircle++;
+    //Declare Variables
+    //Inputs
+    const int ROWS=11;    //Set Number if rows to 10 for 10 digits
+    char h1Array[ROWS]={};//1-d array for the first hexadecimal numerals
+    char h2Array[ROWS]={};//1-d array for the second hexadecimal numerals
+    //Outputs
+    int h1val;            //Value of first hexadecimal numerals in base 10
+    int h2val;            //Value of second hexadecimal numerals in base 10
+    int sum;              //Sum of both hexadecimal numerals in base 10
+    
+    //Input Values
+    cout<<"Enter two hexadecimal numbers to add them together"<<endl;
+    cout<<"Each number must not exceed 10 numerals"<<endl;
+    cout<<"Enter the first hexadecimal number"<<endl;
+    cout<<"Put a '.' at the end of the number"<<endl;
+    for(int row=0;row<ROWS&&h1Array[row-1]!='.';row++){
+        cin>>h1Array[row];
+        if (row==10&&h1Array[row]!='.'){
+            cout<<"Addition Overflow"<<endl;
+            cout<<"Only first 10 numerals recorded"<<endl;
+            h1Array[row]='.';
+        }
     }
-    //Calculate the approx value of PI
-    approxPI=4.0f*inCircle/nDarts;
-    //Output the result
-    cout<<"The Approximate value of PI = "<<approxPI<<endl<<endl;
+    cout<<"Enter the second hexadecimal number"<<endl;
+    cout<<"Put a '.' at the end of the number"<<endl;
+    for(int row=0;row<ROWS&&h2Array[row-1]!='.';row++){
+        cin>>h2Array[row];
+        if (row==10&&h2Array[row]!='.'){
+            cout<<"Addition Overflow"<<endl;
+            cout<<"Only first 10 numerals recorded"<<endl;
+            h2Array[row]='.';
+        }
+    }
+    
+    //Calculations
+    //Calculate value of first number
+    h1val=hex_to_10(h1Array[],ROWS);
+    //Calculate value of second number
+    h2val=hex_to_10(h2Array[],ROWS);
+    //Calculate sum of both numbers
+    sum=h1val+h2val;
+    
+    //Output Results
+    for(int row=0;row<ROWS&&h1Array[row]!='.';row++){
+        cout<<h1Array[row];
+    }
+    cout<<" + ";
+    for(int row=0;row<ROWS&&h2Array[row]!='.';row++){
+        cout<<h2Array[row];
+    }
+    cout<<" = "<<sum<<" in base 10"<<endl;
+    
+    //Exit Stage Right
+    cout<<endl<<endl;
 }
 
 //Solution to problem 3
@@ -167,4 +255,88 @@ void problem10(){
 //Exit Comment
 void def(int inN){
     cout<<"You typed "<<inN<<" to exit the program"<<endl;
+}
+
+//Function that converts a hexadecimal number to a base 10 Number
+//Inputs
+//    Array  ->Array containing the hexadecimal number and '.' terminator
+//    n      ->Maximum Row Size
+//Outputs
+//    number ->Base 10 number
+int hex_to_10(char Array[], int n){
+    int number=0;//Number value in base 10
+    int numeVal; //Value of numeral
+    for(int row=0;row<n&&Array[row]!='.';row++){
+       switch(Array[row]){
+            case '0':{
+                numeVal=0;
+                break;
+            }
+            case '1':{
+                numeVal=1;
+                break;
+            }
+            case '2':{
+                numeVal=2;
+                break;
+            }
+            case '3':{
+                numeVal=3;
+                break;
+            }
+            case '4':{
+                numeVal=4;
+                break;
+            }
+            case '5':{
+                numeVal=5;
+                break;
+            }
+            case '6':{
+                numeVal=6;
+                break;
+            }
+            case '7':{
+                numeVal=7;
+                break;
+            }
+            case '8':{
+                numeVal=8;
+                break;
+            }
+            case '9':{
+                numeVal=9;
+                break;
+            }
+            case 'a':{
+                numeVal=10;
+                break;
+            }
+            case 'b':{
+                numeVal=11;
+                break;
+            }
+            case 'c':{
+                numeVal=12;
+                break;
+            }
+            case 'd':{
+                numeVal=13;
+                break;
+            }
+            case 'e':{
+                numeVal=14;
+                break;
+            }
+            case 'f':{
+                numeVal=15;
+                break;
+            }
+            default:{
+                cout<<"Invalid Digit Used"<<endl;
+            };
+        }
+       number+=pow(16,row)*numeVal;
+    } 
+    return number;
 }
