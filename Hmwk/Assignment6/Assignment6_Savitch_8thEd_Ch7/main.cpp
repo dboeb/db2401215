@@ -34,7 +34,7 @@ void problem9();
 void problem10();
 bool add_hex_dig(char,char,char&,bool=false);
 bool add_hex_num(char[],char[],char[],int);
-void delete_repeats(char[],int&);
+void delete_repeats(char[],int);
 //Execution begins here
 int main(int argv,char *argc[]){
     int inN;
@@ -212,21 +212,28 @@ void problem3(){
     const int ROWS=11;  //Number of Rows
     char array[ROWS]={};//Array Containing Random Characters
     //Outputs
-    int size=10;           //Size of the Array (Number of spaces being used)
+    int size;           //Size of the Array (Number of spaces being used)
     
     //Input Values
-    cout<<"Enter 10 random characters with some that repeat"<<endl;
+    cout<<"Enter up to 10 random characters with some that repeat"<<endl;
     cin>>array;
     
+    //Calculate Size of Array Before
+    size=strlen(array);
+    cout<<"Your number of characters = "<<size<<endl;
     //Delete Repeats
     delete_repeats(array,size);
+    //Calculate Size of Array After
+    size=strlen(array);
     
     //Output Results
-    cout<<"After Deleting repeating characters"<<endl;
+    cout<<"After deleting repeating characters,"<<endl;
     cout<<"Your characters are:"<<endl;
     for (int row=0;row<ROWS;row++){
         cout<<array[row];
     }
+    cout<<endl;
+    cout<<"Making it only "<<size<<" characters"<<endl;
     
     //Exit Stage Right
     cout<<endl<<endl;
@@ -278,21 +285,20 @@ void def(int inN){
 //    size   ->Size of array being used
 //Outputs
 //    NONE
-void delete_repeats(char array [],int& size){
+void delete_repeats(char array [],int size){
     int scan;         //Scan for characters
     int charLoc;      //Character Location
     char charact;     //Character Being compared to
-    int nsize;        //New size
     
-    nsize=size;
-    //Find repeats
+    //Find Repeats
     for (scan=0;scan<size;scan++){
         charLoc=scan;
         charact=array[scan];
         for(int locat=scan+1;locat<size;locat++){
             if (array[locat]==charact){
-                array[locat]=array[locat+1];
-                nsize--;
+                for(int spot=locat;spot<size;spot++){
+                    array[spot]=array[spot+1];
+                }               
             }
         }
     }
