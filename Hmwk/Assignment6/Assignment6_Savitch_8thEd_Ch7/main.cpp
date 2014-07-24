@@ -32,8 +32,9 @@ void problem7();
 void problem8();
 void problem9();
 void problem10();
-int hex_to_10(char,int);
-
+bool add_hex_dig(char,char,char&,bool=false);
+bool add_hex_num(char[],char[],char[],int);
+void delete_repeats(char[],int&);
 //Execution begins here
 int main(int argv,char *argc[]){
     int inN;
@@ -162,51 +163,43 @@ void problem2(){
     char h1Array[ROWS]={};//1-d array for the first hexadecimal numerals
     char h2Array[ROWS]={};//1-d array for the second hexadecimal numerals
     //Outputs
-    int h1val;            //Value of first hexadecimal numerals in base 10
-    int h2val;            //Value of second hexadecimal numerals in base 10
-    int sum;              //Sum of both hexadecimal numerals in base 10
+    int resSize;          //Size of Result
+    int h1size;           //Size of first number
+    int h2size;           //Size of second number
     
     //Input Values
     cout<<"Enter two hexadecimal numbers to add them together"<<endl;
     cout<<"Each number must not exceed 10 numerals"<<endl;
     cout<<"Enter the first hexadecimal number"<<endl;
-    cout<<"Put a '.' at the end of the number"<<endl;
-    for(int row=0;row<ROWS&&h1Array[row-1]!='.';row++){
-        cin>>h1Array[row];
-        if (row==10&&h1Array[row]!='.'){
-            cout<<"Addition Overflow"<<endl;
-            cout<<"Only first 10 numerals recorded"<<endl;
-            h1Array[row]='.';
-        }
-    }
+    cin>>h1Array;
     cout<<"Enter the second hexadecimal number"<<endl;
-    cout<<"Put a '.' at the end of the number"<<endl;
-    for(int row=0;row<ROWS&&h2Array[row-1]!='.';row++){
-        cin>>h2Array[row];
-        if (row==10&&h2Array[row]!='.'){
-            cout<<"Addition Overflow"<<endl;
-            cout<<"Only first 10 numerals recorded"<<endl;
-            h2Array[row]='.';
-        }
-    }
+    cin>>h2Array;
     
     //Calculations
-    //Calculate value of first number
-    h1val=hex_to_10(h1Array[],ROWS);
-    //Calculate value of second number
-    h2val=hex_to_10(h2Array[],ROWS);
-    //Calculate sum of both numbers
-    sum=h1val+h2val;
+    //Calculate length of first number
+    h1size=strlen(h1Array);
+    //Calculate length of second number
+    h2size=strlen(h2Array);
+    //Calculate Result Size
+    if (h1size>h2size){
+        resSize=h1size+1;
+    }else{
+        resSize=h2size+1;
+    }
+    char result[resSize];
+    //Calculate Summation of Numbers
+    bool x=add_hex_num(h1Array,h2Array,result,resSize);
     
     //Output Results
-    for(int row=0;row<ROWS&&h1Array[row]!='.';row++){
-        cout<<h1Array[row];
+    cout<<endl;
+    cout<<setw(resSize+1)<<h1Array<<endl;
+    cout<<"+"<<setw(resSize)<<h2Array<<endl;
+    cout<<"-------------"<<endl;
+    if(x){
+        cout<<"Overflow"<<endl;
+    }else{
+        cout<<setw(resSize+1)<<result;
     }
-    cout<<" + ";
-    for(int row=0;row<ROWS&&h2Array[row]!='.';row++){
-        cout<<h2Array[row];
-    }
-    cout<<" = "<<sum<<" in base 10"<<endl;
     
     //Exit Stage Right
     cout<<endl<<endl;
@@ -214,7 +207,29 @@ void problem2(){
 
 //Solution to problem 3
 void problem3(){
-    cout<<"In problem # 3"<<endl<<endl;
+    //Declare Variables
+    //Inputs
+    const int ROWS=11;  //Number of Rows
+    char array[ROWS]={};//Array Containing Random Characters
+    //Outputs
+    int size=10;           //Size of the Array (Number of spaces being used)
+    
+    //Input Values
+    cout<<"Enter 10 random characters with some that repeat"<<endl;
+    cin>>array;
+    
+    //Delete Repeats
+    delete_repeats(array,size);
+    
+    //Output Results
+    cout<<"After Deleting repeating characters"<<endl;
+    cout<<"Your characters are:"<<endl;
+    for (int row=0;row<ROWS;row++){
+        cout<<array[row];
+    }
+    
+    //Exit Stage Right
+    cout<<endl<<endl;
 }
 
 //Solution to problem 4
@@ -257,86 +272,89 @@ void def(int inN){
     cout<<"You typed "<<inN<<" to exit the program"<<endl;
 }
 
-//Function that converts a hexadecimal number to a base 10 Number
+//Function that deletes repeating characters
 //Inputs
-//    Array  ->Array containing the hexadecimal number and '.' terminator
-//    n      ->Maximum Row Size
+//    array  ->Array containing characters
+//    size   ->Size of array being used
 //Outputs
-//    number ->Base 10 number
-int hex_to_10(char Array[], int n){
-    int number=0;//Number value in base 10
-    int numeVal; //Value of numeral
-    for(int row=0;row<n&&Array[row]!='.';row++){
-       switch(Array[row]){
-            case '0':{
-                numeVal=0;
-                break;
+//    NONE
+void delete_repeats(char array [],int& size){
+    int scan;         //Scan for characters
+    int charLoc;      //Character Location
+    char charact;     //Character Being compared to
+    int nsize;        //New size
+    
+    nsize=size;
+    //Find repeats
+    for (scan=0;scan<size;scan++){
+        charLoc=scan;
+        charact=array[scan];
+        for(int locat=scan+1;locat<size;locat++){
+            if (array[locat]==charact){
+                array[locat]=array[locat+1];
+                nsize--;
             }
-            case '1':{
-                numeVal=1;
-                break;
-            }
-            case '2':{
-                numeVal=2;
-                break;
-            }
-            case '3':{
-                numeVal=3;
-                break;
-            }
-            case '4':{
-                numeVal=4;
-                break;
-            }
-            case '5':{
-                numeVal=5;
-                break;
-            }
-            case '6':{
-                numeVal=6;
-                break;
-            }
-            case '7':{
-                numeVal=7;
-                break;
-            }
-            case '8':{
-                numeVal=8;
-                break;
-            }
-            case '9':{
-                numeVal=9;
-                break;
-            }
-            case 'a':{
-                numeVal=10;
-                break;
-            }
-            case 'b':{
-                numeVal=11;
-                break;
-            }
-            case 'c':{
-                numeVal=12;
-                break;
-            }
-            case 'd':{
-                numeVal=13;
-                break;
-            }
-            case 'e':{
-                numeVal=14;
-                break;
-            }
-            case 'f':{
-                numeVal=15;
-                break;
-            }
-            default:{
-                cout<<"Invalid Digit Used"<<endl;
-            };
         }
-       number+=pow(16,row)*numeVal;
-    } 
-    return number;
+    }
+}
+
+//Function that adds hexadecimal numbers and the previous remainder
+//Inputs
+//    h1   ->Array containing a digit for the first hexadecimal number
+//    h2   ->Array containing a digit for the second hexadecimal number
+//    d    ->Digit for the result
+//    c    ->Hex digit addition result (0 or 1)
+//Outputs
+//    Digit for Resulting Number
+bool add_hex_dig(char h1,char h2,char& d,bool c){
+    //Determine Values of Integers
+    int i1=h1-48;
+    int i2=h2-48;
+    if (h1>=65){
+        i1=h1-55;
+    }
+    if (h2>=65){
+        i2=h2-55;
+    }
+    //Add Integers Together
+    int sum=i1+i2+c;
+    if(sum%16>9){
+        d=sum%16+55;
+    }else{
+        d=sum%16+48;
+    }
+    //Return Result from addition
+    return sum/16;
+}
+
+//Function that returns the remainder for the addition of hexadecimal numbers
+//Inputs
+//    h1   ->Array containing the first hexadecimal number
+//    h2   ->Array containing the second hexadecimal number
+//    size ->Size of answer
+//Outputs
+//    c    ->Hex digit addition result remainder (0 or 1)
+bool add_hex_num(char h1 [],char h2 [],char re [],int size){
+    //Initialize Result Array
+    re[size-1]='\0';
+    for(int i=0;i<=size-2;i++){
+        re[i]='0';
+    }
+    //Start Counters
+    int reCou=size-2;
+    int h1Cou=strlen(h1)-1;
+    int h2Cou=strlen(h2)-1;
+    //Added to the first digit
+    bool c=add_hex_dig(h1[h1Cou--],h2[h2Cou--],re[reCou--]);
+    do{
+        if (h1Cou<0&&h2Cou<0){
+            return c;
+        }else if (h1Cou<0){
+            c=add_hex_dig('0',h2[h2Cou--],re[reCou--],c);
+        }else if (h2Cou<0){
+            c=add_hex_dig(h1[h1Cou--],'0',re[reCou--],c);
+        }else{
+            c=add_hex_dig(h1[h1Cou--],h2[h2Cou--],re[reCou--],c);
+        }
+    }while(true);
 }
