@@ -11,84 +11,69 @@
 #include <fstream>
 #include <string.h>
 #include <iomanip>
+#include <vector>
 using namespace std;
 
 //User Libraries
 
 //Global Constants
 const int PERCENT=100;//Ratio to Percent Conversion
+const int COLS=7;//Number of columns for the 2-d array
 
 //Function Prototypes
+void output_card(int[],int);
+void card_value(int[],int);
 
 //Execution Starts Here!
 int main(int argc, char** argv) {
     //Declare and Initialize Variables
     //Inputs and Constants
-    ifstream input;            //Input from file
-    char aceval;               //Ace Value
-    const int SIZE=7;          //Character length
-    char acetype[SIZE];        //Ace Type, Inputted from file
-    char High[SIZE]="High";    //Character string to compare input string to
-    char Low[SIZE]="Low";      //Character string to compare input string to
-    char Either[SIZE]="Either";//Character string to compare input string to
+    ifstream input;           //Input from file
+    const int ROWS=10;
+    char board[ROWS][COLS]={};//Leader Board with initials and scores from file
+    const int SIZE=3;         //Size set to 3 for the 2 initials and null terminator
+    char user[SIZE];          //Initials of User
     //Outputs
-    int card1;                 //Player's Card 1 value
-    int card2;                 //Player's Card 2 value
-    int card3=0;               //Player's Additional card value
-    int card4=0;               //Player's Additional card value
-    int totval;                //Player's Total value of all cards
-    int dcard1;                //Dealer's Card 1 value
-    int dcard2;                //Dealer's Card 2 value
-    int dcard3=0;              //Dealer's additional card value
-    int dcard4=0;              //Dealer's additional card value
-    int dtotval;               //Dealer's total value of all cards
-    short wins=0;              //Number of wins
-    short losses=0;            //Number of losses
-    float winper;              //Winning percentage
-    ofstream output;           //Output to file
+    int money=50;             //User's Money (Buy-in at $50)
+    vector<int> cards;        //Player's Cards
+    vector<int> hand2;        //Player's Second hand if splitting cards
+    vector<int> dcards;       //Dealer's Cards
+    int csize;                //Size of vector for player's cards
+    int hsize;                //Size of vector for player's second hand
+    int dsize;                //Size of vector for dealer's cards
+    int bet;                  //User's Bet in dollars
+    int totval;               //Player's Total value of all cards
+    int dtotval;              //Dealer's total value of all cards
+    short wins=0;             //Number of wins
+    short losses=0;           //Number of losses
+    float winper;             //Winning percentage
+    ofstream output;          //Output to file
     
     //Set the Random Seed
     srand(static_cast<unsigned int>(time(0)));
     
    
     //Output Pre-Game Directions
-    cout<<"                     ----- 21 -----"<<endl;
-    cout<<"Before playing, open the file 'Ace.txt' and clear the file,"<<endl;
-    cout<<"then type in 'High', 'Low', or 'Either' to set up the value"<<endl;
-    cout<<"of the Ace card. High means that an Ace has a value of 11,"<<endl;
-    cout<<"low means that an Ace has a value of 1, and either means "<<endl;
-    cout<<"that an Ace has a value of 1 or 11. It is recommended to"<<endl;
-    cout<<"play with 'Either'."<<endl;
-    cout<<endl;
+    cout<<"                     ----- BlackJack -----"<<endl;
+    cout<<"Please enter your two initials"<<endl;
+    cin>>user;
+    cout<<"Hello "<<user<<", you have started a new game of Blackjack and your"<<endl;
+    cout<<"buy-in is $50. The minimum bet is $5 and all of the normal rules and options"<<endl;
+    cout<<"of Blackjack will apply. Good luck."<<endl;
     
     //Input Values
-    //Open the Input file
-    input.open("Ace.txt");
+    //Open the Leader Board file
+    input.open("LeaderBoard.txt");
     //Test File For Open Failures
     if (!input){
         cout<<"File Open Failure"<<endl;
     //Input Ace Type
     }else{
-        input>>acetype;
-    }
-    
-    //Determine Game Type
-    //If file reads High
-    if (!strcmp(acetype,High)){
-        //Set Ace Value to High
-        aceval='H';
-    //Else if file reads Low
-    }else if (!strcmp(acetype,Low)){
-        //Set Ace Value to Low
-        aceval='L';
-    //Else if file reads Either
-    }else if (!strcmp(acetype,Either)){
-        //Set Ace Value to Either
-        aceval='E';
-    //Else Default to Either
-    }else{
-        cout<<"Invalid Ace Type, Defaulted Ace to 'Either'"<<endl;
-        aceval='E';
+        for (int row=0;row<ROWS;row++){
+            for (int col=0;col<COLS;col++){
+                input>>board[row][col];
+            }
+        }
     }
     
     //Set loop=true
@@ -97,98 +82,27 @@ int main(int argc, char** argv) {
     do{
         //Output Start of New Game Information
         cout<<"You started a new game and was dealt two cards"<<endl;
-        //If Ace Values are High
-        if (aceval=='H'){
-            //Output Ace Value as High
-            cout<<"Aces are High"<<endl;
-        //Else if Ace Values are Low
-        }else if (aceval=='L'){
-            //Output Ace Value as Low
-            cout<<"Aces are Low"<<endl;
-        //Else Default to Either
-        }else{
-            cout<<"Aces are Either High or Low"<<endl;
-        }
+        
+        //Initialize Hands
+        cards(2,0);
+        hand2(1,0);
+        dcards(2,0);
         
         //Determine Values for Card 1 and 2 for Player
-        int card1=rand()%13+1;
-        int card2=rand()%13+1;
+        int cards[1]=rand()%13+1;
+        int cards[2]=rand()%13+1;
+        
+        //Calculate Size of Vector for Player's Cards
+        csize=cards.size();
         
         //Output Player's Cards
-        //Output Player's Card 1
-        //If Card 1 is Ace
-        if (card1==1){
-            //Output Card 1 as Ace
-            cout<<"Card 1 = Ace"<<endl;
-            //If Ace Value is High or Either
-            if (aceval=='H'||aceval=='E'){
-                //Set Ace Value as 11
-                card1=11;
-            //Else
-            }else{
-                //Set Ace Value as 1
-                card1=1;
-            }
-        //Else if Card 1 is Jack
-        }else if (card1==11){
-            //Output Card 1 as Jack
-            cout<<"Card 1 = Jack"<<endl;
-            //Set Jack Value as 10
-            card1=10;
-        //Else if Card 1 is Queen
-        }else if (card1==12){
-            //Output Card 1 as Queen
-            cout<<"Card 1 = Queen"<<endl;
-            //Set Queen Value as 10
-            card1=10;
-        //Else if Card 1 is King
-        }else if (card1==13){
-            //Output Card 1 as King
-            cout<<"Card 1 = King"<<endl;
-            //Set King Value as 10
-            card1=10;
-        //Else
-        }else{
-            //Output Card 1 as Number
-            cout<<"Card 1 = "<<card1<<endl;
-        }
-        //Output Player's Card 2
-        //If Card 2 is Ace
-        if (card2==1){
-            //Output Card 2 as Ace
-            cout<<"Card 2 = Ace"<<endl;
-            //If Ace Value is High or Either
-            if (aceval=='H'||aceval=='E'){
-                //Set Ace Value as 11
-                card2=11;
-            //Else
-            }else{
-                //Set Ace Value as 1
-                card2=1;
-            }
-        //Else if Card 2 is Jack
-        }else if (card2==11){
-            //Output Card 2 as Jack
-            cout<<"Card 2 = Jack"<<endl;
-            //Set Jack Value as 10
-            card2=10;
-        //Else if Card 2 is Queen
-        }else if (card2==12){
-            //Output Card 2 as Queen
-            cout<<"Card 2 = Queen"<<endl;
-            //Set Queen Value as 10
-            card2=10;
-        //Else if Card 2 is King
-        }else if (card2==13){
-            //Output Card 2 as King
-            cout<<"Card 2 = King"<<endl;
-            //Set King Value as 10
-            card2=10;
-        //Else
-        }else{
-            //Output Card 2 as Number
-            cout<<"Card 2 = "<<card2<<endl;
-        }
+        output_card(cards,csize);
+        
+        //Determine Value of Player's Cards
+        card_value(cards,csize);
+        
+        
+        
         
         //Determine Values for Card 1 and 2 for Dealer
         cout<<"The Dealer now deals him/herself two cards"<<endl;
@@ -815,4 +729,124 @@ int main(int argc, char** argv) {
     input.close();
     output.close();
     return 0;
+}
+
+//Function For Determining Card Value
+//Inputs
+//    cards  ->Vector containing cards
+//    size   ->Size of vector
+//Outputs
+//    Values of Cards
+void card_value(int card[],int size){
+    //If there are only two cards
+    if (size<3){
+        //Calculate Both Cards
+        for(int row=0;row<size;row++){    
+            //If Card is Ace
+            if (card[row]==1){
+                //Set Ace as 11
+                card[row]=11;
+            //Else if Card is Jack
+            }else if (card[row]==11){
+                //Set Jack as 10
+                card[row]=10;
+            //Else if Card is Queen
+            }else if (card[row]==12){
+                //Set Queen as 10
+                card[row]=10;
+            //Else if Card is King
+            }else if (card[row]==13){
+                //Set King as 10
+                card[row]=10;
+            //Else
+            }else{
+                //Leave Card as Number
+                card[row]=card[row];
+            }
+        }
+    //Else
+    }else{
+        //Calcualte Most Recent Card
+        //If Card is Ace
+        if (card[row]==1){
+            //Set Ace as 11
+            card[row]=11;
+        //Else if Card is Jack
+        }else if (card[row]==11){
+            //Set Jack as 10
+            card[row]=10;
+        //Else if Card is Queen
+        }else if (card[row]==12){
+            //Set Queen as 10
+            card[row]=10;
+        //Else if Card is King
+        }else if (card[row]==13){
+            //Set King as 10
+            card[row]=10;
+        //Else
+        }else{
+            //Leave Card as Number
+            card[row]=card[row];
+        }
+    }
+}
+
+//Function For Outputting Cards
+//Inputs
+//    cards  ->Vector containing cards
+//    size   ->Size of vector
+//Outputs
+//    Names of Cards
+void output_card(int card[],int size){
+    //If there are only two cards
+    if (size<3){
+        //Output Both Cards
+        for(int row=0;row<size;row++){    
+            //If Card is Ace
+            if (card[row]==1){
+                //Output Card as Ace
+                cout<<"Card "<<row+1<<" = Ace"<<endl;
+            //Else if Card is Jack
+            }else if (card[row]==11){
+                //Output Card as Jack
+                cout<<"Card "<<row+1<<" = Jack"<<endl;
+            //Else if Card is Queen
+            }else if (card[row]==12){
+                //Output Card as Queen
+                cout<<"Card "<<row+1<<" = Queen"<<endl;
+            //Else if Card is King
+            }else if (card[row]==13){
+                //Output Card as King
+                cout<<"Card "<<row+1<<" = King"<<endl;
+            //Else
+            }else{
+                //Output Card as Number
+                cout<<"Card "<<row+1<<" = "<<card[row]<<endl;
+            }
+        }
+    //Else
+    }else{
+        //Output Most Recent Card
+        //If Card is Ace
+        if (card[size]==1){
+            //Output Card as Ace
+            cout<<"Card "<<size<<" = Ace"<<endl;
+        //Else if Card is Jack
+        }else if (card[size]==11){
+            //Output Card as Jack
+            cout<<"Card "<<size<<" = Jack"<<endl;
+        //Else if Card is Queen
+        }else if (card[size]==12){
+            //Output Card as Queen
+            cout<<"Card "<<size<<" = Queen"<<endl;
+        //Else if Card is King
+        }else if (card[size]==13){
+            //Output Card as King
+            cout<<"Card "<<size<<" = King"<<endl;
+        //Else
+        }else{
+            //Output Card as Number
+            cout<<"Card "<<size<<" = "<<card[size]<<endl;
+        }
+    }
 }
