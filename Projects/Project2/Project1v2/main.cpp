@@ -18,11 +18,13 @@ using namespace std;
 
 //Global Constants
 const int PERCENT=100;//Ratio to Percent Conversion
-const int COLS=7;//Number of columns for the 2-d array
+const int COLS=6;//Number of columns for the 2-d array
 
 //Function Prototypes
 void output_card(int[],int);
 void card_value(int[],int);
+int hand_value(int[],int);
+void ace_val(int[],int,int&);
 
 //Execution Starts Here!
 int main(int argc, char** argv) {
@@ -101,52 +103,35 @@ int main(int argc, char** argv) {
         //Determine Value of Player's Cards
         card_value(cards,csize);
         
-        
-        
-        
         //Determine Values for Card 1 and 2 for Dealer
         cout<<"The Dealer now deals him/herself two cards"<<endl;
-        int dcard1=rand()%13+1;
-        int dcard2=rand()%13+1;
+        int dcards[1]=rand()%13+1;
+        int dcards[2]=rand()%13+1;
         
-        //Output Dealer's Cards
+        //Calculate Size of Vector for Dealer's Cards Minus One
+        dsize=dcards.size()-1;
+        
         //Output Dealer's Card 1
-        //If Card 1 is Ace
-        if (dcard1==1){
-            //Output Card 1 as Ace
-            cout<<"Dealer's Card 1 = Ace"<<endl;
-        //Else if Card 1 is Jack
-        }else if (dcard1==11){
-            //Output Card 1 as Jack
-            cout<<"Dealer's Card 1 = Jack"<<endl;
-        //Else if Card 1 is Queen
-        }else if (dcard1==12){
-            //Output Card 1 as Queen
-            cout<<"Dealer's Card 1 = Queen"<<endl;
-        //Else if Card 1 is King
-        }else if (dcard1==13){
-            //Output Card 1 as King
-            cout<<"Dealer's Card 1 = King"<<endl;
-        //Else
-        }else{
-            //Output Card 1 as Number
-            cout<<"Dealer's Card 1 = "<<dcard1<<endl;
-        }
+        output_card(dcards,dsize);
         //Output Dealer's Card 2 as Unknown
         cout<<"Dealer's Card 2 = ?"<<endl;
         
-        //Calculate total value of Player's cards
-        totval=card1+card2;
+        //Calculate Actual Size of Vector for Dealer's Cards
+        dsize=dcards.size();
         
-        //Initialize Player Decision as Stay
-        char choice='S';
-        //If Total Value of Player's Card is Less than 22
-        if (totval<22){
-            //Ask Player for Hit or Stay Decision
-            cout<<"The total value of your cards is "<<totval<<endl;
-            cout<<"Would you like to Hit or Stay? H/S"<<endl;
-            cin>>choice;
+        //Calculate total value of Player's cards
+        totval=hand_value(cards,csize);
+        
+        //Determine Best Ace Value for Player's Cards
+        if (totval>21){
+            ace_val(cards,csize,totval);
         }
+        
+        //Ask Player for First Decision
+        Xcout<<"The total value of your cards is "<<totval<<endl;
+        cout<<"Would you like to Hit or Stay? H/S"<<endl;
+        cin>>choice;
+        
         //Player Hit Loop
         //While Total Value of Player's Card is Less than 22 and Player Chooses Hit
         while ((choice=='H'||choice=='h')&&totval<22){
@@ -715,11 +700,11 @@ int main(int argc, char** argv) {
     output<<fixed<<showpoint<<setprecision(1);
     output.open("Results.txt");
     //Output Total Wins
-    output<<"Total Wins = "<<wins<<endl;
+    output<<"Total Wins = "<<wins<<"\n";
     //Output Total Losses
-    output<<"  Total Losses = "<<losses<<endl;
+    output<<"  Total Losses = "<<losses<<"\n";
     //Output Win Percentage
-    output<<"  Win Percentage = "<<winper<<"%"<<endl;
+    output<<"  Win Percentage = "<<winper<<"%";
     //Inform Player Results were Outputted to File
     cout<<"Your Total Wins and Losses as well as your Win Percentage"<<endl;
     cout<<"can be seen in the 'Results.txt' file"<<endl;
@@ -729,6 +714,35 @@ int main(int argc, char** argv) {
     input.close();
     output.close();
     return 0;
+}
+
+//Function For Determining Best Ace Value
+//Inputs
+//    cards  ->Vector containing cards
+//    size   ->Size of vector
+//Outputs
+//    Best Ace Value
+void ace_val(int card[],int size,int& totval){
+    for(int row=0;row<size&&totval>21;row++){
+        if (card[size]==11){
+            card[size]=1;
+            totval-=10;
+        }
+    }
+}
+
+//Function For Determining Card Value
+//Inputs
+//    cards  ->Vector containing cards
+//    size   ->Size of vector
+//Outputs
+//    sum    ->Total value of Cards
+int hand_value(int card[],int size){
+    int sum=0;
+    for (int row=0;row<size;row++){
+        sum+=card[row];
+    }
+    return sum;
 }
 
 //Function For Determining Card Value
@@ -768,25 +782,25 @@ void card_value(int card[],int size){
     }else{
         //Calcualte Most Recent Card
         //If Card is Ace
-        if (card[row]==1){
+        if (card[size]==1){
             //Set Ace as 11
-            card[row]=11;
+            card[size]=11;
         //Else if Card is Jack
-        }else if (card[row]==11){
+        }else if (card[size]==11){
             //Set Jack as 10
-            card[row]=10;
+            card[size]=10;
         //Else if Card is Queen
-        }else if (card[row]==12){
+        }else if (card[size]==12){
             //Set Queen as 10
-            card[row]=10;
+            card[size]=10;
         //Else if Card is King
-        }else if (card[row]==13){
+        }else if (card[size]==13){
             //Set King as 10
-            card[row]=10;
+            card[size]=10;
         //Else
         }else{
             //Leave Card as Number
-            card[row]=card[row];
+            card[size]=card[size];
         }
     }
 }
