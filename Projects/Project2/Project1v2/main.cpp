@@ -166,14 +166,27 @@ int main(int argc, char** argv) {
         if(dcards[0]==1){
             cout<<"       'I' to buy insurance"<<endl;
         }
-        if(cards[0]==cards[1]&&money>bet){
+        if((cards[0]==cards[1])&&money>bet){
             cout<<"       'P' to split your pair"<<endl;
         }
         cin>>choice;
         
         //Evaluate Player's Decision and Change Bet Value If Needed
+        //If Player chose to Hit
+        if(choice=='H'||choice=='h'){
+            cout<<"You chose to Hit"<<endl;
+            cout<<endl;
+        //If player chose to stay
+        }else if(choice=='S'||choice=='s'){
+            cout<<"You chose to Stay"<<endl;
+            cout<<endl;
+        //If player chose to Surrender
+        }else if(choice=='F'||choice=='f'){
+            cout<<"You chose to Fold/Surrender"<<endl;
+            choice='F';
+            cout<<endl;
         //If Player chose to double down
-        if(choice=='D'||choice=='d'){
+        }else if(choice=='D'||choice=='d'){
             do{
                 cout<<"Enter how much additional money you"<<endl;
                 cout<<"will add to your bet"<<endl;
@@ -190,11 +203,38 @@ int main(int argc, char** argv) {
             bet+=newbet;
             money-=newbet;
             newbet=0;
-            choice='H';
+            //Hit only Once
+            cout<<"You draw an additional card"<<endl;
+            
+            //Determine Value of Card for Player
+            cards.push_back(rand()%13+1);
+            
+            //Calculate Size of Vector for Player's Cards
+            csize=cards.size();;
+
+            //Output Player's Cards
+            output_card(cards,csize);
             cout<<endl;
-        }
+
+            //Determine Value of Player's Cards
+            card_value(cards,csize);
+            
+            //Calculate total value of Player's cards
+            totval=hand_value(cards,csize);
+
+            //Determine Best Ace Value for Player's Cards
+            if (totval>21){
+                ace_val(cards,csize,totval);
+            }
+            
+            //Output Value of Player's Cards
+            cout<<"The total value of your cards is "<<totval<<endl;
+            cout<<endl;
+            //Default Choice to Stay
+            choice='S';
+            cout<<endl;
         //If Player chose to buy insurance
-        if(choice=='I'||choice=='i'){
+        }else if(choice=='I'||choice=='i'){
             do{
                 cout<<"Enter how much money you will"<<endl;
                 cout<<"put towards your insurance bet"<<endl;
@@ -212,19 +252,23 @@ int main(int argc, char** argv) {
             cout<<"Would you like to hit or stay? H/S"<<endl;
             cin>>choice;
             cout<<endl;
-        }
         //If Player chose to split the pairs
-        if(choice=='P'||choice=='p'){
+        }else if(choice=='P'||choice=='p'){
             cout<<"You chose to split your pair"<<endl;
             cout<<"For your first hand:"<<endl;
             newbet=bet;
             money-=newbet;
-            hand2[0]=cards[1];
+            hand2.push_back(cards[1]);
             cards.pop_back();
             csize=1;
             hsize=1;
+            htotval=hand_value(hand2,hsize);
             choice='H';
             cout<<endl;
+        }else{
+            cout<<"You did not choose a valid decision."<<endl;
+            cout<<"By default you chose to stay"<<endl;
+            choice='S';
         }
         
         //Player Hit Loop For First Hand
@@ -236,7 +280,7 @@ int main(int argc, char** argv) {
             cards.push_back(rand()%13+1);
             
             //Calculate Size of Vector for Player's Cards
-            csize++;
+            csize=cards.size();
 
             //Output Player's Cards
             output_card(cards,csize);
@@ -274,7 +318,7 @@ int main(int argc, char** argv) {
             choice='H';
         }
         //While Total Value of Player's Card is Less than 22 and Player Chooses Hit
-        while ((choice=='H'||choice=='h')&&htotval<22&&hsize>0){
+        while ((choice=='H'||choice=='h')&&htotval<22){
             cout<<"For your second hand:"<<endl;
             cout<<"You draw an additional card"<<endl;
             
@@ -282,7 +326,7 @@ int main(int argc, char** argv) {
             hand2.push_back(rand()%13+1);
             
             //Calculate Size of Vector for Player's Cards
-            hsize++;
+            hsize=hand2.size();
 
             //Output Player's Cards
             output_card(hand2,hsize);
@@ -298,6 +342,10 @@ int main(int argc, char** argv) {
             if (htotval>21){
                 ace_val(hand2,hsize,htotval);
             }
+            
+            //Output Value of Player's Cards
+            cout<<"The total value of your cards is "<<htotval<<endl;
+            cout<<endl;
             
             //If Total Value of Player's Cards is less than 22
             if (totval<22){
@@ -340,135 +388,15 @@ int main(int argc, char** argv) {
         
         //Dealer's Turn in relation to Player's First Hand
         //If Total Value of Dealer's Cards is greater than or equal to Total Value of Player's Cards
-        if(totval==21&&csize==2){
-            cout<<"Black Jack"<<endl;
-            cout<<"You Win"<<endl;
-            wins++;
-            money+=2*bet;
-            cout<<"You now have $"<<money<<" left"<<endl;
-            cout<<endl;
-        }else if(dtotval==21&dsize==2){
-            //Calculate Size of Vector for Dealer's Cards
-            dsize=dcards.size();
-
-            //Output Dealer's Cards
-            output_card(dcards,dsize);
-            cout<<endl;
-
-            //Determine Value of Dealer's Cards
-            card_value(dcards,dsize);
-            
-            //Calculate total value of Dealer's cards
-            dtotval=hand_value(cards,csize);
-
-            //Determine Best Ace Value for Dealer's Cards
-            if (dtotval>21){
-                ace_val(cards,csize,dtotval);
-            }
-        
-            //Output Total Value of Dealer's Cards
-            cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
-            cout<<endl;
-            cout<<"Dealer's Black Jack"<<endl;
-            cout<<"You Lose"<<endl;
-            losses++;
-            if(inbet!=0){
-                cout<<"You win your insurance bet"<<endl;
-                money+=2*inbet;
-            }
-            cout<<"You now have $"<<money<<" left"<<endl;
-            cout<<endl;
-        }else if (dtotval==totval){
-            //Calculate Size of Vector for Dealer's Cards
-            dsize=dcards.size();
-
-            //Output Dealer's Cards
-            output_card(dcards,dsize);
-            cout<<endl;
-
-            //Determine Value of Dealer's Cards
-            card_value(dcards,dsize);
-            
-            //Calculate total value of Dealer's cards
-            dtotval=hand_value(cards,csize);
-
-            //Determine Best Ace Value for Dealer's Cards
-            if (dtotval>21){
-                ace_val(cards,csize,dtotval);
-            }
-        
-            //Output Total Value of Dealer's Cards
-            cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
-            cout<<endl;
-            cout<<"Push"<<endl;
-            cout<<"Nobody wins"<<endl;
-            money+=bet;
-            cout<<"You now have $"<<money<<" left"<<endl;
-            cout<<endl;
-        }else if (dtotval>totval){
-            cout<<"Dealer's shows his/her second card."<<endl;
-            
-            //Calculate Size of Vector for Dealer's Cards
-            dsize=dcards.size();
-
-            //Output Dealer's Cards
-            output_card(dcards,dsize);
-            cout<<endl;
-
-            //Determine Value of Dealer's Cards
-            card_value(dcards,dsize);
-            
-            //Calculate total value of Dealer's cards
-            dtotval=hand_value(cards,csize);
-
-            //Determine Best Ace Value for Dealer's Cards
-            if (dtotval>21){
-                ace_val(cards,csize,dtotval);
-            }
-        
-            //Output Total Value of Dealer's Cards
-            cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
-            cout<<endl;
-            //Output Dealer as Winner
-            cout<<"Dealer Wins"<<endl;
-            //Add Loss
-            losses++;
-            cout<<"You now have $"<<money<<" left"<<endl;
-            cout<<endl;
-            
-        //if Total Value of Dealer's Cards is Less than Total Value of Player's Cards and Both are Less than 22
-        }else if ((dtotval<totval||dtotval<=16)&&dtotval<22&&totval<22){
-            cout<<"Dealer's shows his/her second card."<<endl;
-            
-            //Calculate Size of Vector for Dealer's Cards
-            dsize=dcards.size();
-
-            //Output Dealer's Cards
-            output_card(dcards,dsize);
-            cout<<endl;
-
-            //Determine Value of Dealer's Cards
-            card_value(dcards,dsize);
-            
-            //Calculate total value of Dealer's cards
-            dtotval=hand_value(cards,csize);
-
-            //Determine Best Ace Value for Dealer's Cards
-            if (dtotval>21){
-                ace_val(cards,csize,dtotval);
-            }
-            
-            //Output Total Value of Dealer's Cards
-            cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
-            cout<<endl;
-            
-            //Dealer Hit Loop
-            //While Total Value of Dealer's Cards is less than Total Value of Player's Cards or 16, and  Less than 22 
-            while (dtotval<totval||dtotval<=16&&dtotval<22){
-                cout<<"The Dealer now deals him/herself an additional card"<<endl;
-                //Determine Value of Dealer's Card 3
-                dcards.push_back(rand()%13+1);
-                
+        if(choice!='F'){
+            if(totval==21&&csize==2&&dtotval!=21){
+                cout<<"Black Jack"<<endl;
+                cout<<"You Win"<<endl;
+                wins++;
+                money+=2*bet;
+                cout<<"You now have $"<<money<<" left"<<endl;
+                cout<<endl;
+            }else if(dtotval==21&dsize==2&&(totval!=21&&csize!=2)){
                 //Calculate Size of Vector for Dealer's Cards
                 dsize=dcards.size();
 
@@ -480,76 +408,198 @@ int main(int argc, char** argv) {
                 card_value(dcards,dsize);
 
                 //Calculate total value of Dealer's cards
-                dtotval=hand_value(cards,csize);
+                dtotval=hand_value(dcards,dsize);
 
                 //Determine Best Ace Value for Dealer's Cards
                 if (dtotval>21){
-                    ace_val(cards,csize,dtotval);
+                    ace_val(dcards,dsize,dtotval);
                 }
-                
+
                 //Output Total Value of Dealer's Cards
-                cout<<"The total value of the Dealer's cards is "<<dtotval<<endl; 
+                cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
                 cout<<endl;
-            }
-            
-            //Determine winner in accordance to first hand
-            //If The hands Tie
-            if (dtotval==totval){
+                cout<<"Dealer's Black Jack"<<endl;
+                cout<<"You Lose"<<endl;
+                losses++;
+                if(inbet!=0){
+                    cout<<"You win your insurance bet"<<endl;
+                    money+=2*inbet;
+                }
+                cout<<"You now have $"<<money<<" left"<<endl;
+                cout<<endl;
+            }else if (dtotval==totval){
+                //Calculate Size of Vector for Dealer's Cards
+                dsize=dcards.size();
+
+                //Output Dealer's Cards
+                output_card(dcards,dsize);
+                cout<<endl;
+
+                //Determine Value of Dealer's Cards
+                card_value(dcards,dsize);
+
+                //Calculate total value of Dealer's cards
+                dtotval=hand_value(dcards,dsize);
+
+                //Determine Best Ace Value for Dealer's Cards
+                if (dtotval>21){
+                    ace_val(dcards,dsize,dtotval);
+                }
+
+                //Output Total Value of Dealer's Cards
+                cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
+                cout<<endl;
                 cout<<"Push"<<endl;
-                cout<<"Nobody Wins"<<endl;
+                cout<<"Nobody wins"<<endl;
                 money+=bet;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            //If Total Value of Dealer's Cards is Over 21
-            }else if (dtotval>21){
-                //Output That Dealer Busts and Player Wins
-                cout<<"Dealer Busts"<<endl;
-                cout<<"You Win!"<<endl;
-                //Add Win
-                wins++;
-                money+=bet*2;
-                cout<<"You now have $"<<money<<" left"<<endl;
-                cout<<endl;
-            //if Total Value of Dealer's Cards is Over Total Value of Player's Cards
             }else if (dtotval>totval){
-                //Output That Dealer Wins
+                cout<<"Dealer's shows his/her second card."<<endl;
+
+                //Calculate Size of Vector for Dealer's Cards
+                dsize=dcards.size();
+
+                //Output Dealer's Cards
+                output_card(dcards,dsize);
+                cout<<endl;
+
+                //Determine Value of Dealer's Cards
+                card_value(dcards,dsize);
+
+                //Calculate total value of Dealer's cards
+                dtotval=hand_value(dcards,dsize);
+
+                //Determine Best Ace Value for Dealer's Cards
+                if (dtotval>21){
+                    ace_val(dcards,dsize,dtotval);
+                }
+
+                //Output Total Value of Dealer's Cards
+                cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
+                cout<<endl;
+                //Output Dealer as Winner
                 cout<<"Dealer Wins"<<endl;
                 //Add Loss
                 losses++;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
+
+            //if Total Value of Dealer's Cards is Less than Total Value of Player's Cards and Both are Less than 22
+            }else if ((dtotval<totval||dtotval<=16)&&dtotval<22&&totval<22){
+                cout<<"Dealer's shows his/her second card."<<endl;
+
+                //Calculate Size of Vector for Dealer's Cards
+                dsize=dcards.size();
+
+                //Output Dealer's Cards
+                output_card(dcards,dsize);
+                cout<<endl;
+
+                //Determine Value of Dealer's Cards
+                card_value(dcards,dsize);
+
+                //Calculate total value of Dealer's cards
+                dtotval=hand_value(dcards,dsize);
+
+                //Determine Best Ace Value for Dealer's Cards
+                if (dtotval>21){
+                    ace_val(dcards,dsize,dtotval);
+                }
+
+                //Output Total Value of Dealer's Cards
+                cout<<"The total value of the Dealer's cards is "<<dtotval<<endl;
+                cout<<endl;
+
+                //Dealer Hit Loop
+                //While Total Value of Dealer's Cards is less than Total Value of Player's Cards or 16, and  Less than 22 
+                while ((dtotval<totval||dtotval<=16)&&dtotval<22){
+                    cout<<"The Dealer now deals him/herself an additional card"<<endl;
+                    //Determine Value of Dealer's Card
+                    dcards.push_back(rand()%13+1);
+
+                    //Calculate Size of Vector for Dealer's Cards
+                    dsize=dcards.size();
+
+                    //Output Dealer's Cards
+                    output_card(dcards,dsize);
+                    cout<<endl;
+
+                    //Determine Value of Dealer's Cards
+                    card_value(dcards,dsize);
+
+                    //Calculate total value of Dealer's cards
+                    dtotval=hand_value(dcards,dsize);
+
+                    //Determine Best Ace Value for Dealer's Cards
+                    if (dtotval>21){
+                        ace_val(dcards,dsize,dtotval);
+                    }
+
+                    //Output Total Value of Dealer's Cards
+                    cout<<"The total value of the Dealer's cards is "<<dtotval<<endl; 
+                    cout<<endl;
+                }
+
+                //Determine winner in accordance to first hand
+                //If The hands Tie
+                if (dtotval==totval){
+                    cout<<"Push"<<endl;
+                    cout<<"Nobody Wins"<<endl;
+                    money+=bet;
+                    cout<<"You now have $"<<money<<" left"<<endl;
+                    cout<<endl;
+                //If Total Value of Dealer's Cards is Over 21
+                }else if (dtotval>21){
+                    //Output That Dealer Busts and Player Wins
+                    cout<<"Dealer Busts"<<endl;
+                    cout<<"You Win!"<<endl;
+                    //Add Win
+                    wins++;
+                    money+=bet*2;
+                    cout<<"You now have $"<<money<<" left"<<endl;
+                    cout<<endl;
+                //if Total Value of Dealer's Cards is Over Total Value of Player's Cards
+                }else if (dtotval>totval){
+                    //Output That Dealer Wins
+                    cout<<"Dealer Wins"<<endl;
+                    //Add Loss
+                    losses++;
+                    cout<<"You now have $"<<money<<" left"<<endl;
+                    cout<<endl;
+                //Else
+                }else{
+                    //Output That Player Wins
+                    cout<<"You Win!"<<endl;
+                    //Add win
+                    wins++;
+                    money+=2*bet;
+                    cout<<"You now have $"<<money<<" left"<<endl;
+                    cout<<endl;
+                }
             //Else
             }else{
-                //Output That Player Wins
-                cout<<"You Win!"<<endl;
-                //Add win
-                wins++;
-                money+=2*bet;
+                //Output That Player Busts
+                cout<<"You Bust!"<<endl;
+                //Add Loss
+                losses++;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
             }
-        //Else
-        }else{
-            //Output That Player Busts
-            cout<<"You Bust!"<<endl;
-            //Add Loss
-            losses++;
-            cout<<"You now have $"<<money<<" left"<<endl;
-            cout<<endl;
         }
         
         //Dealer's Turn in relation to Player's Second Hand if there is a second hand
         //If Total Value of Dealer's Cards is greater than or equal to Total Value of Player's Cards
         if(hsize>1){
             cout<<"For your second hand:"<<endl;
-            if(htotval==21&&hsize==2){
+            if(htotval==21&&hsize==2&&(dtotval!=21&&dsize!=2)){
                 cout<<"Black Jack"<<endl;
                 cout<<"You Win"<<endl;
                 wins++;
                 money+=2*bet;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            }else if(dtotval==21&dsize==2){
+            }else if(dtotval==21&dsize==2&&(htotval!=21&&hsize!=2)){
                 cout<<"Dealer's Black Jack"<<endl;
                 cout<<"You Lose"<<endl;
                 losses++;
@@ -591,8 +641,8 @@ int main(int argc, char** argv) {
                 cout<<endl;
             }
         }
-        if(choice=='F'||choice=='f'){
-            cout<<"You Surrendered"
+        if(choice=='F'){
+            cout<<"You Surrendered"<<endl;
             //Add Loss
             losses++;
             money+=0.5*bet;
@@ -608,7 +658,7 @@ int main(int argc, char** argv) {
         }else{
             //Ask to Play Again
             cout<<endl<<endl;
-            cout<<"Play Again? Y/N"<<endl;
+            cout<<"Would you like to continue playing? Y/N"<<endl;
             char repeat;
             cin>>repeat;
             cout<<endl;
@@ -663,8 +713,8 @@ int main(int argc, char** argv) {
 //    Best Ace Value
 void ace_val(vector<int> &card,int size,int& totval){
     for(int row=0;row<size&&totval>21;row++){
-        if (card[size]==11){
-            card[size]=1;
+        if (card[row]==11){
+            card[row]=1;
             totval-=10;
         }
     }
@@ -721,25 +771,25 @@ void card_value(vector<int> &card,int size){
     }else{
         //Calcualte Most Recent Card
         //If Card is Ace
-        if (card[size]==1){
+        if (card[size-1]==1){
             //Set Ace as 11
-            card[size]=11;
+            card[size-1]=11;
         //Else if Card is Jack
-        }else if (card[size]==11){
+        }else if (card[size-1]==11){
             //Set Jack as 10
-            card[size]=10;
+            card[size-1]=10;
         //Else if Card is Queen
-        }else if (card[size]==12){
+        }else if (card[size-1]==12){
             //Set Queen as 10
-            card[size]=10;
+            card[size-1]=10;
         //Else if Card is King
-        }else if (card[size]==13){
+        }else if (card[size-1]==13){
             //Set King as 10
-            card[size]=10;
+            card[size-1]=10;
         //Else
         }else{
             //Leave Card as Number
-            card[size]=card[size];
+            card[size-1]=card[size-1];
         }
     }
 }

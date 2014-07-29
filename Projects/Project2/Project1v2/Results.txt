@@ -1,3 +1,3 @@
-Total Wins = 0
-  Total Losses = 1
-  Win Percentage = 0.0%
+Total Wins = 2
+  Total Losses = 4
+  Win Percentage = 33.3%
