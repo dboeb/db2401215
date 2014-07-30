@@ -23,7 +23,7 @@ const int COLS=6;//Number of columns for the 2-d array
 //Function Prototypes
 void output_card(const vector<int> &,int);
 void card_value(vector<int> &,int);
-int hand_value(const vector<int> &,int);
+int hand_value(const vector<int> &,int,int sum=0);
 void ace_val(vector<int> &,int,int&);
 
 //Execution Starts Here!
@@ -31,9 +31,9 @@ int main(int argc, char** argv) {
     //Declare and Initialize Variables
     //Inputs and Constants
     ifstream input;           //Input from file
-    const int ROWS=10;
+    const int ROWS=11;        //Number 
     char board[ROWS][COLS]={};//Leader Board with initials and scores from file
-    const int SIZE=3;         //Size set to 3 for the 2 initials and null terminator
+    const int SIZE=4;         //Size set to 4 for the 3 initials and null terminator
     char user[SIZE];          //Initials of User
     //Outputs
     int money=50;             //User's Money (Buy-in at $50)
@@ -58,20 +58,6 @@ int main(int argc, char** argv) {
     //Set the Random Seed
     srand(static_cast<unsigned int>(time(0)));
     
-   
-    //Output Pre-Game Directions
-    cout<<"                     ----- BlackJack -----"<<endl;
-    do{
-        cout<<"Please enter your two initials"<<endl;
-        cin>>user;
-        if(strlen(user)>2){
-            cout<<"You can only enter two characters"<<endl;
-        }
-    }while(strlen(user)>2);
-    cout<<"Hello "<<user<<", you have started a new game of Blackjack and your"<<endl;
-    cout<<"buy-in is $50. The minimum bet is $5 and all of the normal rules and options"<<endl;
-    cout<<"of Blackjack will apply. Refer to Write-Up for detailed rules. Good luck."<<endl;
-    
     //Input Values
     //Open the Leader Board file
     input.open("LeaderBoard.txt");
@@ -86,6 +72,36 @@ int main(int argc, char** argv) {
             }
         }
     }
+    
+    //Output Pre-Game Directions
+    cout<<"                     ----- BlackJack -----"<<endl;
+    cout<<endl;
+    //Output Current Leader Board
+    cout<<"                         LEADER BOARD"<<endl;
+    cout<<"                         Name   Money"<<endl;
+    for(int row=0;row<ROWS-1;row++){
+        for(int col=0;col<COLS;col++){
+            if(col==0)cout<<"                          ";
+            cout<<board[row][col];
+            if(col==2)cout<<"   $";
+        }
+        cout<<endl;
+    }
+    
+    do{
+        cout<<"Please enter your three initials"<<endl;
+        cin>>user;
+        if(strlen(user)!=3){
+            cout<<"You can only enter three characters"<<endl;
+        }
+    }while(strlen(user)!=3);
+    cout<<"Hello "<<user<<", you have started a new game of Blackjack and your"<<endl;
+    cout<<"buy-in is $50. The minimum bet is $5 and all of the normal rules and options"<<endl;
+    cout<<"of Blackjack will apply. Refer to Write-Up for detailed rules. Good luck."<<endl;
+    cout<<endl;
+    
+    
+    
     
     //Set loop=true
     bool loop=true;
@@ -348,7 +364,7 @@ int main(int argc, char** argv) {
             cout<<endl;
             
             //If Total Value of Player's Cards is less than 22
-            if (totval<22){
+            if (htotval<22){
                 //Ask Player for Hit or Stay Decision
                 cout<<"Would you like to Hit or Stay? H/S"<<endl;
                 cin>>choice;
@@ -396,7 +412,7 @@ int main(int argc, char** argv) {
                 money+=2*bet;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            }else if(dtotval==21&dsize==2&&(totval!=21&&csize!=2)){
+            }else if(dtotval==21&&(totval!=21&&csize!=2)){
                 //Calculate Size of Vector for Dealer's Cards
                 dsize=dcards.size();
 
@@ -427,7 +443,7 @@ int main(int argc, char** argv) {
                 }
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            }else if (dtotval==totval){
+            }else if (dtotval==totval&&dtotval>16){
                 //Calculate Size of Vector for Dealer's Cards
                 dsize=dcards.size();
 
@@ -454,7 +470,7 @@ int main(int argc, char** argv) {
                 money+=bet;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            }else if (dtotval>totval){
+            }else if (dtotval>totval&&dtotval>16){
                 cout<<"Dealer's shows his/her second card."<<endl;
 
                 //Calculate Size of Vector for Dealer's Cards
@@ -592,14 +608,14 @@ int main(int argc, char** argv) {
         //If Total Value of Dealer's Cards is greater than or equal to Total Value of Player's Cards
         if(hsize>1){
             cout<<"For your second hand:"<<endl;
-            if(htotval==21&&hsize==2&&(dtotval!=21&&dsize!=2)){
+            if(htotval==21&&hsize==2&&dtotval!=21){
                 cout<<"Black Jack"<<endl;
                 cout<<"You Win"<<endl;
                 wins++;
                 money+=2*bet;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            }else if(dtotval==21&dsize==2&&(htotval!=21&&hsize!=2)){
+            }else if(dtotval==21&&(htotval!=21&&hsize!=2)){
                 cout<<"Dealer's Black Jack"<<endl;
                 cout<<"You Lose"<<endl;
                 losses++;
@@ -609,7 +625,7 @@ int main(int argc, char** argv) {
                 }
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            }else if (dtotval==htotval){
+            }else if (dtotval==htotval&&dtotval>16){
                 cout<<"Push"<<endl;
                 cout<<"Nobody Wins"<<endl;
                 money+=bet;
@@ -681,17 +697,93 @@ int main(int argc, char** argv) {
     winper=static_cast<float>(wins)/(wins+losses)*PERCENT;
     
     //Update Leader Board
-    cout<<"Your total amount of money left (or score) is "<<money<<endl;
+    cout<<"Your total amount of money left (or score) is $"<<money<<endl;
     cout<<"The Leader Board can be seen in the 'LeaderBoard.txt' file"<<endl;
-    //for(int row=0;dddd)
+    if(money>999){
+        money=999;
+    }
+    //Enter User's Name and Score to Leader Board
+    //Enter Name
+    for(int col=0;col<3;col++){
+        board[10][col]=user[col];
+    }
+    //Enter Score
+    int int1,int2,int3;//Three integers for User's Score
+    if(money>99){
+        int1=money/100;
+        int2=(money-100*int1)/10;
+        int3=money-100*int1-10*int2;
+    }else if(money>9){
+        int1=0;
+        int2=money/10;
+        int3=money-10*int2;
+    }else{
+        int1=0;
+        int2=0;
+        int3=money;
+    }
+    char hundr,tens,ones;//Three character integers for User's Score
+    hundr=int1+48;
+    tens=int2+48;
+    ones=int3+48;
+    board[10][3]=hundr;
+    board[10][4]=tens;
+    board[10][5]=ones;
+    
+    //Search and Sort Leader Board
+    for(int count=ROWS-1;count>=0;count--){
+        int n1int1,n1int2,n1int3;//Integers for First number
+        n1int1=static_cast<int>(board[count][3]);
+        n1int2=static_cast<int>(board[count][4]);
+        n1int3=static_cast<int>(board[count][5]);
+        int n2int1,n2int2,n2int3;//Integers for Second number
+        n2int1=static_cast<int>(board[count-1][3]);
+        n2int2=static_cast<int>(board[count-1][4]);
+        n2int3=static_cast<int>(board[count-1][5]);
+        int temp;
+        if(n1int1>n2int1){
+            for(int col=0;col<COLS;col++){
+                temp=board[count][col];
+                board[count][col]=board[count-1][col];
+                board[count-1][col]=temp;
+            }
+        }else if(n1int1==n2int1&&n1int2>n2int2){
+            for(int col=0;col<COLS;col++){
+                temp=board[count][col];
+                board[count][col]=board[count-1][col];
+                board[count-1][col]=temp;
+            }
+        }else if(n1int1==n2int1&&n1int2==n2int2&&n1int3>n2int3){
+            for(int col=0;col<COLS;col++){
+                temp=board[count][col];
+                board[count][col]=board[count-1][col];
+                board[count-1][col]=temp;
+            }
+        }else if(n1int1==n2int1&&n1int2==n2int2&&n1int3==n2int3){
+            for(int col=0;col<COLS;col++){
+                temp=board[count][col];
+                board[count][col]=board[count-1][col];
+                board[count-1][col]=temp;
+            }
+        }
+        else{}
+    }
+    
+    //Output Sorted Leader Board to file
+    output.open("LeaderBoard.txt");
+    for(int row=0;row<ROWS;row++){
+        for(int col=0;col<COLS;col++){
+            output<<board[row][col];
+        }
+    }
     
     //Output the results to file
     output<<fixed<<showpoint<<setprecision(1);
     output.open("Results.txt");
     //Output Total Wins
-    output<<"Total Wins = "<<wins<<"\n";
+    output<<"Total Wins = "<<wins;
     //Output Total Losses
-    output<<"  Total Losses = "<<losses<<"\n";
+    output<<"  Total Losses = "<<losses;
     //Output Win Percentage
     output<<"  Win Percentage = "<<winper<<"%";
     //Inform Player Results were Outputted to File
@@ -726,8 +818,7 @@ void ace_val(vector<int> &card,int size,int& totval){
 //    size   ->Size of vector
 //Outputs
 //    sum    ->Total value of Cards
-int hand_value(const vector<int> &card,int size){
-    int sum=0;
+int hand_value(const vector<int> &card,int size, int sum){
     for (int row=0;row<size;row++){
         sum+=card[row];
     }
