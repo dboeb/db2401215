@@ -66,8 +66,6 @@ int main(int argc, char** argv) {
         cout<<"File Open Failure"<<endl;
     //Input Leader Board
     }else{
-        char dum1,dum2,dum3,dum4;//Dummy characters
-        //input>>dum1>>dum2>>dum3>>dum4;
         for (int row=0;row<ROWS;row++){
             for (int col=0;col<COLS;col++){
                 input>>board[row][col];
@@ -79,7 +77,7 @@ int main(int argc, char** argv) {
     }
     input.close();
     
-    //Output Pre-Game Directions
+    //Output Game Title
     cout<<"                     ----- BlackJack -----"<<endl;
     cout<<endl;
     //Output Current Leader Board
@@ -94,6 +92,7 @@ int main(int argc, char** argv) {
         cout<<endl;
     }
     
+    //Input Player's Initials
     do{
         cout<<"Please enter your three initials"<<endl;
         cin>>user;
@@ -101,6 +100,8 @@ int main(int argc, char** argv) {
             cout<<"You can only enter three characters"<<endl;
         }
     }while(strlen(user)!=3);
+    
+    //Output Pre-Game Instructions
     cout<<"Hello "<<user<<", you have started a new game of Blackjack and your"<<endl;
     cout<<"buy-in is $50. The minimum bet is $5 and all of the normal rules and options"<<endl;
     cout<<"of Blackjack will apply. Refer to Write-Up for detailed rules. Good luck."<<endl;
@@ -116,6 +117,7 @@ int main(int argc, char** argv) {
         //Output Start of New Game Information
         cout<<endl<<endl;
         cout<<"You started a new game"<<endl;
+        //Input Player's Bet
         do{
             cout<<"Enter your bet in dollars"<<endl;
             cin>>bet;
@@ -287,6 +289,7 @@ int main(int argc, char** argv) {
             htotval=hand_value(hand2,hsize);
             choice='H';
             cout<<endl;
+        //Else default player's decision to stay
         }else{
             cout<<"You did not choose a valid decision."<<endl;
             cout<<"By default you chose to stay"<<endl;
@@ -709,12 +712,12 @@ int main(int argc, char** argv) {
         money=999;
     }
     //Enter User's Name and Score to Leader Board
-    //Enter Name
+    //Enter Name to Leader Board
     for(int col=0;col<3;col++){
         board[10][col]=user[col];
     }
     
-    //Enter Score
+    //Enter Score to Leader Board
     int int1,int2,int3;//Three integers for User's Score
     if(money>99){
         int1=money/100;
