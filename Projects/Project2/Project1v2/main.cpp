@@ -60,18 +60,24 @@ int main(int argc, char** argv) {
     
     //Input Values
     //Open the Leader Board file
-    input.open("LeaderBoard.txt");
+    input.open("LeaderBoard.csv");
     //Test File For Open Failures
     if (!input){
         cout<<"File Open Failure"<<endl;
-    //Input Leader Board 
+    //Input Leader Board
     }else{
+        char dum1,dum2,dum3,dum4;//Dummy characters
+        //input>>dum1>>dum2>>dum3>>dum4;
         for (int row=0;row<ROWS;row++){
             for (int col=0;col<COLS;col++){
                 input>>board[row][col];
+                if(board[row][col]==','){
+                    col--;
+                }
             }
         }
     }
+    input.close();
     
     //Output Pre-Game Directions
     cout<<"                     ----- BlackJack -----"<<endl;
@@ -83,7 +89,7 @@ int main(int argc, char** argv) {
         for(int col=0;col<COLS;col++){
             if(col==0)cout<<"                          ";
             cout<<board[row][col];
-            if(col==2)cout<<"   $";
+            if(col==2)cout<<"  $";
         }
         cout<<endl;
     }
@@ -412,7 +418,7 @@ int main(int argc, char** argv) {
                 money+=2*bet;
                 cout<<"You now have $"<<money<<" left"<<endl;
                 cout<<endl;
-            }else if(dtotval==21&&(totval!=21&&csize!=2)){
+            }else if(dtotval==21&&(totval!=21&&csize>2)){
                 //Calculate Size of Vector for Dealer's Cards
                 dsize=dcards.size();
 
@@ -707,6 +713,7 @@ int main(int argc, char** argv) {
     for(int col=0;col<3;col++){
         board[10][col]=user[col];
     }
+    
     //Enter Score
     int int1,int2,int3;//Three integers for User's Score
     if(money>99){
@@ -722,24 +729,20 @@ int main(int argc, char** argv) {
         int2=0;
         int3=money;
     }
-    char hundr,tens,ones;//Three character integers for User's Score
-    hundr=int1+48;
-    tens=int2+48;
-    ones=int3+48;
-    board[10][3]=hundr;
-    board[10][4]=tens;
-    board[10][5]=ones;
+    board[10][3]=int1+48;
+    board[10][4]=int2+48;
+    board[10][5]=int3+48;
     
     //Search and Sort Leader Board
-    for(int count=ROWS-1;count>=0;count--){
+    for(int count=ROWS-1;count>0;count--){
         int n1int1,n1int2,n1int3;//Integers for First number
-        n1int1=static_cast<int>(board[count][3]);
-        n1int2=static_cast<int>(board[count][4]);
-        n1int3=static_cast<int>(board[count][5]);
+        n1int1=board[count][3];
+        n1int2=board[count][4];
+        n1int3=board[count][5];
         int n2int1,n2int2,n2int3;//Integers for Second number
-        n2int1=static_cast<int>(board[count-1][3]);
-        n2int2=static_cast<int>(board[count-1][4]);
-        n2int3=static_cast<int>(board[count-1][5]);
+        n2int1=board[count-1][3];
+        n2int2=board[count-1][4];
+        n2int3=board[count-1][5];
         int temp;
         if(n1int1>n2int1){
             for(int col=0;col<COLS;col++){
@@ -770,12 +773,15 @@ int main(int argc, char** argv) {
     }
     
     //Output Sorted Leader Board to file
-    output.open("LeaderBoard.txt");
+    output.open("LeaderBoard.csv");
     for(int row=0;row<ROWS;row++){
         for(int col=0;col<COLS;col++){
-            output<<board[row][col];
+            output<<board[row][col]<<",";
         }
+        output<<"\n";
     }
+    
+    output.close();
     
     //Output the results to file
     output<<fixed<<showpoint<<setprecision(1);
