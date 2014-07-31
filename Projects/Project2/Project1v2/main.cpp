@@ -25,6 +25,7 @@ void output_card(const vector<int> &,int);
 void card_value(vector<int> &,int);
 int hand_value(const vector<int> &,int,int sum=0);
 void ace_val(vector<int> &,int,int&);
+void prntbord(const char [][COLS],const int);
 
 //Execution Starts Here!
 int main(int argc, char** argv) {
@@ -81,16 +82,7 @@ int main(int argc, char** argv) {
     cout<<"                     ----- BlackJack -----"<<endl;
     cout<<endl;
     //Output Current Leader Board
-    cout<<"                         LEADER BOARD"<<endl;
-    cout<<"                         Name   Money"<<endl;
-    for(int row=0;row<ROWS-1;row++){
-        for(int col=0;col<COLS;col++){
-            if(col==0)cout<<"                          ";
-            cout<<board[row][col];
-            if(col==2)cout<<"  $";
-        }
-        cout<<endl;
-    }
+    prntbord(board,ROWS);
     
     //Input Player's Initials
     do{
@@ -951,5 +943,24 @@ void output_card(const vector<int> &card,int size){
             //Output Card as Number
             cout<<"Card "<<size<<" = "<<card[size-1]<<endl;
         }
+    }
+}
+
+//Function That Prints out the Leaderboard
+//Inputs
+//    board ->2-d array that contains the leaderboard
+//    nRows ->Number of rows in the 2-d array
+//Outputs
+//    Top 10 scores
+void prntbord(const char board[][COLS],const int nRows){
+    cout<<"                         LEADER BOARD"<<endl;
+    cout<<"                         Name   Money"<<endl;
+    for(int row=0;row<nRows-1;row++){
+        for(int col=0;col<COLS;col++){
+            if(col==0)cout<<"                          ";
+            cout<<board[row][col];
+            if(col==2)cout<<"  $";
+        }
+        cout<<endl;
     }
 }
