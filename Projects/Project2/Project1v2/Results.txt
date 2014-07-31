@@ -1,1 +1,1 @@
-Total Wins = 0  Total Losses = 1  Win Percentage = 0.0%
+Total Wins = 1  Total Losses = 0  Win Percentage = 100.0%
